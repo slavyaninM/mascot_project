@@ -27,10 +27,11 @@ class Project:
 
 
 # пока не реализовал
-# @dataclass
-# class TeamRecommendation:
-#     project_id: str
-#     selected_employee_ids: list[str]
-#     covered_requirements: list[str]
-#     missing_requirements: list[str]
-#     explanation: str
+@dataclass
+class TeamRecommendation:
+    project_id: str
+    selected_employee_ids: list[str]
+    covered_requirements: list[str]
+    missing_requirements: list[str]
+    explanation: str
+    
