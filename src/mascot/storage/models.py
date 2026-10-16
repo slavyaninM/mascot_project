@@ -44,9 +44,11 @@ class TeamRecommendation(BaseModel):
 
 # Модели из ветки main
 
+
 class RawDigitalTrace(BaseModel):
     """Схема сырого цифрового следа сотрудника."""
     employee_id: str
+
     source_system: str   # jira, git, lms, hr
     event_type: str      # commit, task_closed, test_passed
     payload: dict[str, Any]
@@ -54,6 +56,8 @@ class RawDigitalTrace(BaseModel):
 
 class EmployeeProfile(BaseModel):
     """Единый структурированный профиль сотрудника."""
+
+
     employee_id: str
     full_name: str
     role: str
