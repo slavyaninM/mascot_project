@@ -1,52 +1,76 @@
-# from dataclasses import dataclass, field
+from typing import Any
 
-# # простой словарь предметной области
-# @dataclass
-# class Employee:
-#     id: str
-#     name: str
-#     role: str
-#     skills: dict[str, int] = field(default_factory=dict)
-#     available: bool = True
+from pydantic import BaseModel, Field
 
-
-# @dataclass
-# class ProjectRequirement:
-#     skill: str
-#     min_level: int
-#     weight: float = 1.0
-
-
-# @dataclass
-# class Project:
-#     id: str
-#     name: str
-#     description: str
-#     team_size: int
-#     requirements: list[ProjectRequirement] = field(default_factory=list)
-
-
-# # пока не реализовал
-# @dataclass
-# class TeamRecommendation:
-#     project_id: str
-#     selected_employee_ids: list[str]
-#     covered_requirements: list[str]
-#     missing_requirements: list[str]
-#     explanation: str
-
-# ========================================================================================================================================================================
-# ===============================================================объединённый models.py===================================================================================
-# ========================================================================================================================================================================
 from src.mascot.agents.trust_layer.metric import Metric
-class Employee(BaseModel):        # был dataclass в test_data
-    id: str; name: str; role: str
-    skills: dict[str, int] = {}
+
+
+# Доменные модели — для подбора команды
+# (были dataclass в ветке test_data, теперь Pydantic)
+
+class Employee(BaseModel):
+    """Сотрудник — кандидат в команду проекта."""
+    id: str
+    name: str
+    role: str
+    skills: dict[str, int] = Field(default_factory=dict)
     available: bool = True
 
-class ProjectRequirement(BaseModel): ...
-class Project(BaseModel): ...
-class TeamRecommendation(BaseModel): ...
 
-class RawDigitalTrace(BaseModel): ...   # из main
-class EmployeeProfile(BaseModel): ...   # из main
+class ProjectRequirement(BaseModel):
+    """Одно требование проекта к навыку."""
+    skill: str
+    min_level: int
+    weight: float = 1.0
+
+
+class Project(BaseModel):
+    """Проект, под который подбирается команда."""
+    id: str
+    name: str
+    description: str
+    team_size: int
+    requirements: list[ProjectRequirement] = Field(default_factory=list)
+
+
+class TeamRecommendation(BaseModel):
+    """Результат подбора команды."""
+    project_id: str
+    selected_employee_ids: list[str]
+    covered_requirements: list[str]
+    missing_requirements: list[str]
+    explanation: str
+
+
+# Модели из ветки main
+
+class RawDigitalTrace(BaseModel):
+    """Схема сырого цифрового следа сотрудника."""
+    employee_id: str
+    source_system: str   # jira, git, lms, hr
+    event_type: str      # commit, task_closed, test_passed
+    payload: dict[str, Any]
+
+
+class EmployeeProfile(BaseModel):
+    """Единый структурированный профиль сотрудника."""
+    employee_id: str
+    full_name: str
+    role: str
+    grade: str
+
+    # Метрики теперь несут провенанс (источник, период, уверенность).
+    # Было: Dict[str, Any] с git/jira/lms.
+    metrics: list[Metric] = Field(default_factory=list)
+
+    is_available: bool = True
+
+
+# Вспомогательные утилиты
+
+def get_metric(profile: EmployeeProfile, name: str) -> Metric | None:
+    """Находит метрику по имени. None, если её нет."""
+    for metric in profile.metrics:
+        if metric.name == name:
+            return metric
+    return None
