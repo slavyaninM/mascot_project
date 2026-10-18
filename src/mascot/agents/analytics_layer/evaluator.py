@@ -40,13 +40,20 @@ class EvaluatorAgent(BaseAgent):
             self._sub_agent_star(message.payload)
             ]
 
-            results = await asyncio.gather(*tasks, return_exceptions=True)
+            pred_results = await asyncio.gather(*tasks, return_exceptions=True)
+            results = []
+            for i, res in enumerate(pred_results):
+                if isinstance(res, Exception):
+                    logger.warning(f"Суб-агент {i} завершился с ошибкой: {res}", exc_info=True)
+                    results.append("Данные недоступны из-за технического сбоя модуля.")
+                else:
+                    results.append(res)
+
             hard_skills = results[0]
             spec_requirements = results[1]
             lms_trajectory = results[2]
             feedback_360 = results[3]
             star_method = results[4]
-
 
             # 3. Консолидация результатов через LLM в единый структурированный JSON
             final_profile = await self._sub_agent_consolidator(
