@@ -1,5 +1,6 @@
 import uuid
 import logging
+import asyncio
 from typing import Dict, Any
 from src.mascot.core.base_agent import BaseAgent
 from src.mascot.core.message import AgentMessage
@@ -32,11 +33,20 @@ class EvaluatorAgent(BaseAgent):
 
             # 2. Запуск ИИ-модулей параллельно (для экономии времени)
             # В реальной системе здесь будут асинхронные запросы к LLM и ChromaDB
-            hard_skills = await self._sub_agent_hard_skills(message.payload)
-            spec_requirements = await self._sub_agent_spec_requirements(message.payload)
-            lms_trajectory = await self._sub_agent_lms_trajectory(message.payload)
-            feedback_360 = await self._sub_agent_feedback_360(message.payload)
-            star_method = await self._sub_agent_star(message.payload)
+            tasks =[ self._sub_agent_hard_skills(message.payload),
+            self._sub_agent_spec_requirements(message.payload),
+            self._sub_agent_lms_trajectory(message.payload),
+            self._sub_agent_feedback_360(message.payload),
+            self._sub_agent_star(message.payload)
+            ]
+
+            results = await asyncio.gather(*tasks, return_exceptions=True)
+            hard_skills = results[0]
+            spec_requirements = results[1]
+            lms_trajectory = results[2]
+            feedback_360 = results[3]
+            star_method = results[4]
+
 
             # 3. Консолидация результатов через LLM в единый структурированный JSON
             final_profile = await self._sub_agent_consolidator(
