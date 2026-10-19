@@ -2,7 +2,7 @@ from src.mascot.agents.data_layer.integrator import (
     load_employees,
     load_projects,
 )
-from src.mascot.pipelines.distribute_team import match_team
+from mascot.pipelines.distribute_team_bak import match_team
 
 
 def main():
@@ -29,7 +29,7 @@ def main():
     for emp_id in result.selected_employee_ids:
         emp = employees_by_id[emp_id]
         print(f"- {emp.name} ({emp.role})")
-    # удалить
+    # удалить \/
     # for employee in result.selected_employees:
     #     print(f"- {employee.name} ({employee.role})")
 
