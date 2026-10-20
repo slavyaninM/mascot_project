@@ -25,4 +25,13 @@ class EmployeeProfile(BaseModel):
             "lms": {"courses_completed": 0, "avg_score": 0.0}
         }
     )
+
+    benchmark: Dict[str, Any] = Field(
+        default_factory=lambda: {
+            "cohort_size": 0, # кол-во людей, с которыми сравниваем
+            "compared_at_global": True,  # Флаг: True — внутри компании, False — по рынку
+            "metrics_comparison": {}
+            # Сюда лягут дельты (например, "git.commits_count": {"delta_pct": 15.2, "status": "above_average"})
+        }
+    )
     is_available: bool = True  # Флаг для Агента-Фильтра Доступности
