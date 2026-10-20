@@ -1,8 +1,6 @@
 ﻿# mascot_project
 
-  
 
-Сомнительный проект для сомнительного движа
 
 ---
 # MASCOT (Multi-Agent System for Competency Optimization and Team distribution)
