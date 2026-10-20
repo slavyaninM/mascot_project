@@ -119,3 +119,44 @@ mascot_project/
 
 ---
 ### Что делать дальше:
+
+## Блок тестирования:
+- Создайте и активируйте виртуальное окружение(рекомендованно для каждого проекта)
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+- Установите pytest, выполнив команду
+```bash
+pip install -U pytest pytest-asyncio
+```
+
+- Установка через IDE (PyCharm, VS Code)
+
+    - *PyCharm*: Перейдите в `Settings / Preferences` -> `Project: <имя_проекта>` -> `Python Interpreter`, нажмите знак `+`, в поиске введите `pytest` и нажмите `Install Package`.
+    - *VS Code*: Откройте палитру команд (`Ctrl+Shift+P` или `Cmd+Shift+P`), введите `Python: Configure Tests`, выберите `pytest` и укажите папку с тестами.
+### Как запускать:
+```
+# Из корня проекта
+
+.venv\Scripts\Activate.ps1
+
+pytest
+
+# С подробным выводом
+pytest -v
+
+# Только аналитика
+pytest tests/test_analytics.py -v
+
+# Только решения
+pytest tests/test_decision.py -v
+
+# Только интеграция
+pytest tests/test_integration.py -v
+
+# Остановиться на первом падении
+pytest -x
+
+# Показать 10 самых медленных
+pytest --durations=10
