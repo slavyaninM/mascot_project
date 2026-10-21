@@ -7,22 +7,22 @@
     "requirements": [
       {
         "skill": "python",
-        "min_level": 3,
+        "min_level": 0.6,
         "weight": 2.0
       },
       {
         "skill": "sql",
-        "min_level": 3,
+        "min_level": 0.6,
         "weight": 1.5
       },
       {
         "skill": "testing",
-        "min_level": 3,
+        "min_level": 0.6,
         "weight": 1.5
       },
       {
         "skill": "requirements",
-        "min_level": 3,
+        "min_level": 0.6,
         "weight": 1.0
       }
     ]

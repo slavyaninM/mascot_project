@@ -40,7 +40,7 @@ class CompetencyAssessment(BaseModel):
     """
     employee_id: str
     competency: str
-    level: float = Field(ge=0.0, le=5.0)
+    level: float = Field(ge=0.0, le=1.0)
     status: AssessmentStatus
 
     evidence: list[EvidenceSource] = Field(default_factory=list)

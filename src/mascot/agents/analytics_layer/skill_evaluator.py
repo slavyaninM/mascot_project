@@ -13,12 +13,12 @@ from .schemas import (
 logger = logging.getLogger("mascot.evaluator")
 
 # Пороги (потом вынесем в config, пока константы, главное не забыть)
-MIN_LEVEL = 0
-MAX_LEVEL = 5
+MIN_LEVEL = 0.0
+MAX_LEVEL = 1.0
 MIN_SAMPLE_FOR_SUFFICIENT = 5
 MIN_CONFIDENCE_FOR_SUFFICIENT = 0.5
 DECLARED_ONLY_CONFIDENCE = 0.6          # заявленному без подтверждения верим не на все 100%
-CONTRADICTION_THRESHOLD = 2             # разрыв между заявленным и измеренным
+CONTRADICTION_THRESHOLD = 0.4             # разрыв между заявленным и измеренным
 
 
 # ---------------------------------------------------------------------------

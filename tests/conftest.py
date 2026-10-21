@@ -28,7 +28,7 @@ def make_employee(
     )
 
 
-def make_requirement(skill: str, min_level: int, weight: float = 1.0) -> ProjectRequirement:
+def make_requirement(skill: str, min_level: float, weight: float = 1.0) -> ProjectRequirement:
     return ProjectRequirement(skill=skill, min_level=min_level, weight=weight)
 
 
@@ -83,7 +83,7 @@ def make_profile(
 def make_assessment(
     employee_id: str = "emp_001",
     competency: str = "python",
-    level: float = 3.0,
+    level: float = 0.6,
     status: AssessmentStatus = AssessmentStatus.SUFFICIENT,
 ) -> CompetencyAssessment:
     return CompetencyAssessment(
