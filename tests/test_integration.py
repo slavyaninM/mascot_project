@@ -12,14 +12,14 @@ class TestFullPipeline:
     def test_employees_to_report(self):
         """Полная цепочка: Employee → evaluation → report."""
         employees = [
-            make_employee(id="e1", name="Иван", skills={"python": 4}),
-            make_employee(id="e2", name="Мария", skills={"testing": 4}),
+            make_employee(id="e1", name="Иван", skills={"python": 0.8}),
+            make_employee(id="e2", name="Мария", skills={"testing": 0.8}),
         ]
         project = make_project(
             team_size=2,
             requirements=[
-                make_requirement("python", 3),
-                make_requirement("testing", 3),
+                make_requirement("python", 0.6),
+                make_requirement("testing", 0.6),
             ],
         )
         evaluations = [evaluate_employee(e) for e in employees]
@@ -36,8 +36,8 @@ class TestBackwardCompatibility:
         """Старый API match_team возвращает TeamRecommendation."""
         from src.mascot.storage.models import TeamRecommendation
 
-        employees = [make_employee(id="e1", skills={"python": 4})]
-        project = make_project(team_size=1, requirements=[make_requirement("python", 3)])
+        employees = [make_employee(id="e1", skills={"python": 0.8})]
+        project = make_project(team_size=1, requirements=[make_requirement("python", 0.6)])
 
         result = match_team(employees, project)
 
@@ -47,8 +47,8 @@ class TestBackwardCompatibility:
 
     def test_match_team_with_precomputed_evaluations(self):
         """match_team принимает готовые evaluations."""
-        employees = [make_employee(id="e1", skills={"python": 4})]
-        project = make_project(team_size=1, requirements=[make_requirement("python", 3)])
+        employees = [make_employee(id="e1", skills={"python": 0.8})]
+        project = make_project(team_size=1, requirements=[make_requirement("python", 0.6)])
         evaluations = [evaluate_employee(e) for e in employees]
 
         result = match_team(employees, project, evaluations)
@@ -57,8 +57,8 @@ class TestBackwardCompatibility:
 
     def test_recommend_team_returns_full_report(self):
         """Новый API recommend_team возвращает расширенный отчёт."""
-        employees = [make_employee(id="e1", skills={"python": 4})]
-        project = make_project(team_size=1, requirements=[make_requirement("python", 3)])
+        employees = [make_employee(id="e1", skills={"python": 0.8})]
+        project = make_project(team_size=1, requirements=[make_requirement("python", 0.6)])
 
         report = recommend_team(employees, project)
 
@@ -71,7 +71,7 @@ class TestBackwardCompatibility:
 
 class TestEmptyInputs:
     def test_empty_employees(self):
-        project = make_project(team_size=2, requirements=[make_requirement("python", 3)])
+        project = make_project(team_size=2, requirements=[make_requirement("python", 0.6)])
 
         report = build_team(project, [], [])
 
@@ -79,7 +79,7 @@ class TestEmptyInputs:
         assert len(report.infeasibility_reasons) > 0
 
     def test_empty_requirements(self):
-        employees = [make_employee(id="e1", skills={"python": 4})]
+        employees = [make_employee(id="e1", skills={"python": 0.8})]
         project = make_project(team_size=1, requirements=[])
         evaluations = [evaluate_employee(e) for e in employees]
 

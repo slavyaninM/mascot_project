@@ -28,10 +28,10 @@ from tests.conftest import (
 class TestInfeasible:
     def test_no_available_employees(self):
         employees = [
-            make_employee(id="e1", skills={"python": 4}, available=False),
-            make_employee(id="e2", skills={"python": 3}, available=False),
+            make_employee(id="e1", skills={"python": 0.8}, available=False),
+            make_employee(id="e2", skills={"python": 0.6}, available=False),
         ]
-        project = make_project(team_size=2, requirements=[make_requirement("python", 3)])
+        project = make_project(team_size=2, requirements=[make_requirement("python", 0.6)])
         evaluations = [evaluate_employee(e) for e in employees]
 
         report = build_team(project, evaluations, employees)
@@ -41,8 +41,8 @@ class TestInfeasible:
         assert "доступных" in report.infeasibility_reasons[0].lower()
 
     def test_zero_team_size(self):
-        employees = [make_employee(id="e1", skills={"python": 4})]
-        project = make_project(team_size=0, requirements=[make_requirement("python", 3)])
+        employees = [make_employee(id="e1", skills={"python": 0.8})]
+        project = make_project(team_size=0, requirements=[make_requirement("python", 0.6)])
         evaluations = [evaluate_employee(e) for e in employees]
 
         report = build_team(project, evaluations, employees)
@@ -58,10 +58,10 @@ class TestInfeasible:
 class TestHardConstraints:
     def test_unavailable_not_selected(self):
         employees = [
-            make_employee(id="e1", skills={"python": 4}, available=False),
-            make_employee(id="e2", skills={"python": 3}, available=True),
+            make_employee(id="e1", skills={"python": 0.8}, available=False),
+            make_employee(id="e2", skills={"python": 0.6}, available=True),
         ]
-        project = make_project(team_size=2, requirements=[make_requirement("python", 3)])
+        project = make_project(team_size=2, requirements=[make_requirement("python", 0.6)])
         evaluations = [evaluate_employee(e) for e in employees]
 
         report = build_team(project, evaluations, employees)
@@ -70,10 +70,10 @@ class TestHardConstraints:
         assert "e2" in report.selected_employee_ids
 
     def test_no_duplicate_employees(self):
-        employees = [make_employee(id=f"e{i}", skills={"python": 3}) for i in range(3)]
+        employees = [make_employee(id=f"e{i}", skills={"python": 0.6}) for i in range(3)]
         project = make_project(
             team_size=2,
-            requirements=[make_requirement("python", 3), make_requirement("sql", 2)],
+            requirements=[make_requirement("python", 0.6), make_requirement("sql", 0.4)],
         )
         evaluations = [evaluate_employee(e) for e in employees]
 
@@ -82,27 +82,27 @@ class TestHardConstraints:
         assert len(report.selected_employee_ids) == len(set(report.selected_employee_ids))
 
     def test_does_not_exceed_team_size(self):
-        employees = [make_employee(id=f"e{i}", skills={"python": 4}) for i in range(5)]
+        employees = [make_employee(id=f"e{i}", skills={"python": 0.8}) for i in range(5)]
         project = make_project(
-            team_size=2,
-            requirements=[make_requirement("python", 3)],
+            team_size = 2,
+            requirements=[make_requirement("python", 0.6)],
         )
         evaluations = [evaluate_employee(e) for e in employees]
 
         report = build_team(project, evaluations, employees)
 
-        assert len(report.selected_employee_ids) <= 2
+        assert len(report.selected_employee_ids) == 2
 
     def test_degraded_when_fewer_available_than_team_size(self):
         employees = [
-            make_employee(id="e1", skills={"python": 4}, available=True),
-            make_employee(id="e2", skills={"python": 3}, available=False),
+            make_employee(id="e1", skills={"python": 0.8}, available=True),
+            make_employee(id="e2", skills={"python": 0.6}, available=False),
         ]
-        project = make_project(team_size=2, requirements=[make_requirement("python", 3)])
+        project = make_project(team_size=2, requirements=[make_requirement("python", 0.6)])
         evaluations = [evaluate_employee(e) for e in employees]
 
         report = build_team(project, evaluations, employees)
-
+        assert report.status == TeamStatus.DEGRADED
         assert len(report.selected_employee_ids) == 1
         assert any(r.type == "size" for r in report.risks)
 
@@ -113,8 +113,8 @@ class TestHardConstraints:
 
 class TestCoverage:
     def test_covered_requirement(self):
-        emp = make_employee(id="e1", skills={"python": 4})
-        project = make_project(team_size=1, requirements=[make_requirement("python", 3)])
+        emp = make_employee(id="e1", skills={"python": 0.8})
+        project = make_project(team_size=1, requirements=[make_requirement("python", 0.6)])
         evaluations = [evaluate_employee(emp)]
 
         report = build_team(project, evaluations, [emp])
@@ -125,8 +125,8 @@ class TestCoverage:
         assert cov.coverage_ratio == 1.0
 
     def test_partial_coverage_deficit(self):
-        emp = make_employee(id="e1", skills={"python": 2})
-        project = make_project(team_size=1, requirements=[make_requirement("python", 5)])
+        emp = make_employee(id="e1", skills={"python": 0.4})
+        project = make_project(team_size=1, requirements=[make_requirement("python", 1.0)])
         evaluations = [evaluate_employee(emp)]
 
         report = build_team(project, evaluations, [emp])
@@ -140,7 +140,7 @@ class TestCoverage:
         """Нет данных по навыку у всех — UNKNOWN, не 0-уровень."""
         emp = make_employee(id="e1", skills={})   # нет навыка вообще
         project = make_project(
-            team_size=1, requirements=[make_requirement("cobol", 3)]
+            team_size=1, requirements=[make_requirement("cobol", 0.6)]
         )
         evaluations = [evaluate_employee(emp)]
 
@@ -153,10 +153,10 @@ class TestCoverage:
     def test_coverage_by_team_not_individual(self):
         """Требование может быть закрыто ЛЮБЫМ членом команды."""
         employees = [
-            make_employee(id="e1", skills={"python": 1}),   # низкий
-            make_employee(id="e2", skills={"python": 5}),   # высокий
+            make_employee(id="e1", skills={"python": 0.2}),   # низкий
+            make_employee(id="e2", skills={"python": 1.0}),   # высокий
         ]
-        project = make_project(team_size=2, requirements=[make_requirement("python", 4)])
+        project = make_project(team_size=2, requirements=[make_requirement("python", 0.8)])
         evaluations = [evaluate_employee(e) for e in employees]
 
         report = build_team(project, evaluations, employees)
@@ -172,8 +172,8 @@ class TestCoverage:
 
 class TestMetrics:
     def test_weighted_coverage_in_range(self):
-        employees = [make_employee(id="e1", skills={"python": 4})]
-        project = make_project(team_size=1, requirements=[make_requirement("python", 3)])
+        employees = [make_employee(id="e1", skills={"python": 0.8})]
+        project = make_project(team_size=1, requirements=[make_requirement("python", 0.6)])
         evaluations = [evaluate_employee(e) for e in employees]
 
         report = build_team(project, evaluations, employees)
@@ -181,12 +181,12 @@ class TestMetrics:
         assert 0.0 <= report.weighted_coverage <= 1.0
 
     def test_full_coverage_is_one(self):
-        employees = [make_employee(id="e1", skills={"python": 4, "sql": 4})]
+        employees = [make_employee(id="e1", skills={"python": 0.8, "sql": 0.8})]
         project = make_project(
             team_size=1,
             requirements=[
-                make_requirement("python", 3, weight=2.0),
-                make_requirement("sql", 3, weight=1.0),
+                make_requirement("python", 0.6, weight=2.0),
+                make_requirement("sql", 0.6, weight=1.0),
             ],
         )
         evaluations = [evaluate_employee(e) for e in employees]
@@ -199,7 +199,7 @@ class TestMetrics:
         employees = [make_employee(id="e1", skills={})]
         project = make_project(
             team_size=1,
-            requirements=[make_requirement("cobol", 3)],
+            requirements=[make_requirement("cobol", 0.6)],
         )
         evaluations = [evaluate_employee(e) for e in employees]
 
@@ -208,12 +208,12 @@ class TestMetrics:
         assert report.weighted_coverage == 0.0
 
     def test_weighted_deficit_accumulates(self):
-        employees = [make_employee(id="e1", skills={"python": 2, "sql": 1})]
+        employees = [make_employee(id="e1", skills={"python": 0.4, "sql": 0.2})]
         project = make_project(
             team_size=1,
             requirements=[
-                make_requirement("python", 4, weight=1.0),  # дефицит 2
-                make_requirement("sql", 3, weight=2.0),     # дефицит 2
+                make_requirement("python", 0.8, weight=1.0),  # дефицит 2
+                make_requirement("sql", 0.6, weight=2.0),     # дефицит 2
             ],
         )
         evaluations = [evaluate_employee(e) for e in employees]
@@ -230,8 +230,8 @@ class TestMetrics:
 
 class TestAlternativesAndRisks:
     def test_alternatives_generated(self):
-        employees = [make_employee(id=f"e{i}", skills={"python": 3}) for i in range(4)]
-        project = make_project(team_size=2, requirements=[make_requirement("python", 3)])
+        employees = [make_employee(id=f"e{i}", skills={"python": 0.6}) for i in range(4)]
+        project = make_project(team_size=2, requirements=[make_requirement("python", 0.6)])
         evaluations = [evaluate_employee(e) for e in employees]
 
         report = build_team(project, evaluations, employees)
@@ -244,7 +244,7 @@ class TestAlternativesAndRisks:
 
     def test_uncovered_generates_risk(self):
         emp = make_employee(id="e1", skills={})
-        project = make_project(team_size=1, requirements=[make_requirement("cobol", 3)])
+        project = make_project(team_size=1, requirements=[make_requirement("cobol", 0.6)])
         evaluations = [evaluate_employee(emp)]
 
         report = build_team(project, evaluations, [emp])
@@ -252,8 +252,8 @@ class TestAlternativesAndRisks:
         assert any(r.type == "unknown_data" for r in report.risks)
 
     def test_low_reliability_generates_risk_and_follow_up(self):
-        emp = make_employee(id="e1", skills={"python": 3})   # только заявленное
-        project = make_project(team_size=1, requirements=[make_requirement("python", 3)])
+        emp = make_employee(id="e1", skills={"python": 0.6})   # только заявленное
+        project = make_project(team_size=1, requirements=[make_requirement("python", 0.6)])
         evaluations = [evaluate_employee(emp)]
 
         report = build_team(project, evaluations, [emp])
@@ -269,8 +269,8 @@ class TestAlternativesAndRisks:
 
 class TestDeterminism:
     def test_same_input_same_output(self):
-        employees = [make_employee(id=f"e{i}", skills={"python": 3}) for i in range(3)]
-        project = make_project(team_size=2, requirements=[make_requirement("python", 3)])
+        employees = [make_employee(id=f"e{i}", skills={"python": 0.6}) for i in range(3)]
+        project = make_project(team_size=2, requirements=[make_requirement("python", 0.6)])
         evaluations = [evaluate_employee(e) for e in employees]
 
         report1 = build_team(project, evaluations, employees)
@@ -280,8 +280,8 @@ class TestDeterminism:
         assert report1.weighted_coverage == report2.weighted_coverage
 
     def test_explanation_mentions_team(self):
-        employees = [make_employee(id="e1", name="Иван", skills={"python": 4})]
-        project = make_project(team_size=1, requirements=[make_requirement("python", 3)])
+        employees = [make_employee(id="e1", name="Иван", skills={"python": 0.8})]
+        project = make_project(team_size=1, requirements=[make_requirement("python", 0.6)])
         evaluations = [evaluate_employee(e) for e in employees]
 
         report = build_team(project, evaluations, employees)
@@ -290,12 +290,12 @@ class TestDeterminism:
         assert project.name in report.explanation
 
     def test_covered_missing_lists_match_coverages(self):
-        employees = [make_employee(id="e1", skills={"python": 4, "sql": 1})]
+        employees = [make_employee(id="e1", skills={"python": 0.8, "sql": 0.2})]
         project = make_project(
             team_size=1,
             requirements=[
-                make_requirement("python", 3),
-                make_requirement("sql", 5),
+                make_requirement("python", 0.6),
+                make_requirement("sql", 1.0),
             ],
         )
         evaluations = [evaluate_employee(e) for e in employees]
@@ -312,7 +312,7 @@ class TestDeterminism:
 
 class TestInternalFunctions:
     def test_get_effective_level_from_evaluation(self):
-        emp = make_employee(id="e1", skills={"python": 3})
+        emp = make_employee(id="e1", skills={"python": 0.6})
         evaluation = make_evaluation(
             employee_id="e1",
             assessments=[make_assessment(competency="python", level=4.0)],
@@ -322,7 +322,7 @@ class TestInternalFunctions:
 
         cov = _evaluate_requirement_for_team(
             ["e1"],
-            make_requirement("python", 3),
+            make_requirement("python", 0.6),
             evaluations_by_id,
             employees_by_id,
         )
@@ -331,12 +331,12 @@ class TestInternalFunctions:
 
     def test_get_effective_level_fallback_to_skills(self):
         """Если оценки нет — используется Employee.skills с MEDIUM надёжностью."""
-        emp = make_employee(id="e1", skills={"python": 3})
+        emp = make_employee(id="e1", skills={"python": 0.6})
         employees_by_id = {"e1": emp}
 
         cov = _evaluate_requirement_for_team(
             ["e1"],
-            make_requirement("python", 3),
+            make_requirement("python", 0.6),
             {},   # пустые evaluations
             employees_by_id,
         )
