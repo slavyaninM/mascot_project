@@ -43,8 +43,6 @@ class ProjectInterpreterAgent:
         system_prompt = self._load_system_prompt()
 
         # Формируем запрос к GigaChat, используя механизм Structured Outputs (передаем Pydantic-модель)
-        # Примечание: Убедитесь, что ваша обертка GigaChatClient поддерживает передачу response_model (FastAPI-style)
-        # Если используете стандартный langchain_community.chat_models, там есть метод .with_structured_output(ProjectRequirements)
 
         response = self.client.generate(
             system_prompt=system_prompt,
