@@ -99,7 +99,7 @@ mascot_project/
 
 ###  Работает, но требует рефакторинга (Временные решения)
 *   **`agents/data_layer/integrator.py`**: Загружает JSON в модели. *Проблема:* Путь к файлам вычисляется "хардкодом" относительно файла (`parents[4]`). Требует выноса в `config/settings.py`.
-*   **`agents/data_layer/scale_validator.py`**: Проверяет уровни навыков (0-5). *Проблема:* Константы захардкожены, требуется вынос в конфиг.
+*   **`agents/data_layer/scale_validator.py`**: Проверяет уровни навыков (0.0 - 1.0). *Проблема:* Константы захардкожены, требуется вынос в конфиг.
 *   **`pipelines/distribute_team.py`**: *(Внимание: в репозитории файл сохранен в неверной кодировке, отображается как binary)*. Содержит базовую логику сопоставления (матчинга) сотрудников и требований. Написан для быстрой проверки работоспособности, не использует математический оптимизатор.
 *   **`storage/models.py`**: Содержит доменные модели (`Employee`, `Project`, `TeamRecommendation`, `EmployeeProfile`). *Проблема:* Модели есть, но фактического подключения к SQLAlchemy/PostgreSQL пока нет.
 
@@ -117,3 +117,50 @@ mascot_project/
 
 ---
 ### Что делать дальше:
+
+## Блок тестирования:
+- Создайте и активируйте виртуальное окружение(рекомендованно для каждого проекта)
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+- Установите pytest, выполнив команду
+```bash
+pip install -U pytest pytest-asyncio
+```
+
+- Установка через IDE (PyCharm, VS Code)
+
+    - *PyCharm*: Перейдите в `Settings / Preferences` -> `Project: <имя_проекта>` -> `Python Interpreter`, нажмите знак `+`, в поиске введите `pytest` и нажмите `Install Package`.
+    - *VS Code*: Откройте палитру команд (`Ctrl+Shift+P` или `Cmd+Shift+P`), введите `Python: Configure Tests`, выберите `pytest` и укажите папку с тестами.
+### Как запускать:
+```
+
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1  # перейти в окружение из папки .venv
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+pip install requests
+
+# Из корня проекта
+pytest
+
+# С подробным выводом
+pytest -v
+
+# Только аналитика
+pytest tests/test_analytics.py -v
+
+# Только решения
+pytest tests/test_decision.py -v
+
+# Только интеграция
+pytest tests/test_integration.py -v
+
+# Остановиться на первом падении
+pytest -x
+
+# Показать 10 самых медленных
+pytest --durations=10
+
+# Выйти из окружения
+deactivate```

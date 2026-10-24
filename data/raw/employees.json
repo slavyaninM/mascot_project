@@ -4,10 +4,10 @@
     "name": "Иван Петров",
     "role": "Backend-разработчик",
     "skills": {
-      "python": 4,
-      "sql": 3,
-      "fastapi": 3,
-      "git": 4
+      "python": 0.8,
+      "sql": 0.6,
+      "fastapi": 0.6,
+      "git": 0.8
     },
     "available": true
   },
@@ -16,10 +16,10 @@
     "name": "Мария Смирнова",
     "role": "QA-инженер",
     "skills": {
-      "python": 2,
-      "sql": 3,
-      "testing": 1,
-      "git": 3
+      "python": 0.4,
+      "sql": 0.6,
+      "testing": 0.2,
+      "git": 0.6
     },
     "available": true
   },
@@ -28,10 +28,10 @@
     "name": "Алексей Козлов",
     "role": "Frontend-разработчик",
     "skills": {
-      "javascript": 4,
-      "react": 3,
-      "css": 4,
-      "git": 4
+      "javascript": 0.8,
+      "react": 0.6,
+      "css": 0.8,
+      "git": 0.8
     },
     "available": false
   },
@@ -40,10 +40,10 @@
     "name": "Ольга Иванова",
     "role": "Аналитик",
     "skills": {
-      "sql": 4,
-      "analytics": 4,
-      "requirements": 5,
-      "communication": 4
+      "sql": 0.8,
+      "analytics": 0.8,
+      "requirements": 1.0,
+      "communication": 0.8
     },
     "available": true
   }

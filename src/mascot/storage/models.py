@@ -13,14 +13,14 @@ class Employee(BaseModel):
     id: str
     name: str
     role: str
-    skills: dict[str, int] = Field(default_factory=dict)
+    skills: dict[str, float] = Field(default_factory=dict)
     available: bool = True
 
 
 class ProjectRequirement(BaseModel):
     """Одно требование проекта к навыку."""
     skill: str
-    min_level: int
+    min_level: float
     weight: float = 1.0
 
 

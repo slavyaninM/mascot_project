@@ -1,8 +1,8 @@
 from src.mascot.storage.models import Employee, Project
 
 # вынести шкалу в config/settings.py потом
-MIN_SKILL_LEVEL = 0
-MAX_SKILL_LEVEL = 5
+MIN_SKILL_LEVEL = 0.0
+MAX_SKILL_LEVEL = 1.0
 
 
 # возвращает список ошибок до того как он уйдет в бд
