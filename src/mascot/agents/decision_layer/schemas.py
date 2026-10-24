@@ -29,8 +29,9 @@ class ReliabilityLevel(str, Enum):
 class RequirementCoverage(BaseModel):
     """Покрытие одного требования всей командой."""
     skill: str
-    min_level: int
     weight: float
+    min_level: float = Field(ge=0.0, le=1.0)
+
 
     achieved_level: float | None      # нет данных
     coverage_ratio: float = Field(ge=0.0, le=1.0)

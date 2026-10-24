@@ -50,6 +50,16 @@ def _has_sufficient_evidence(evidence: list[EvidenceSource]) -> bool:
             return True
     return False
 
+def _is_level_comparable(evidence: EvidenceSource) -> bool:
+    """
+    Можно ли сравнивать значение метрики с уровнем навыка 0..1.
+
+    Временнное правило: считаем level-метрикой только значение в диапазоне 0..1.
+    Счетчики (commits_count, pr_opened, tasks_closed, bugs_count и т.п.)
+    в противоречии не учавствуют.
+    """
+    return MIN_LEVEL <= evidence.value <= MAX_LEVEL
+
 
 def _detect_contradictions(
     skill: str,
@@ -57,27 +67,35 @@ def _detect_contradictions(
     evidence: list[EvidenceSource],
 ) -> list[Contradiction]:
     """
-    Противоречие: заявленный уровень сильно выше подтверждённого метрикой.
-    Пока одна эвристика. Потом можно добавить «метрика выше заявленного» и др.
+    Противоречие ищем только при достаточных доказательствах и только среди level-метрик в шкале 0..1.
     """
-    contradictions = []
-    measured = [e for e in evidence if e.source != "declared"]
-    if not measured:
+    contradictions: list[Contradiction] = []
+
+    if not _has_sufficient_evidence(evidence):
         return contradictions
 
-    # Примитивная нормализация - считаем подтверждённый уровень как
-    # средневзвешенный по измеренным свидетельствам. Потом заменить!
-    if measured:
-        avg_confirmed = sum(e.value for e in measured) / len(measured)
-        if abs(declared_level - avg_confirmed) >= CONTRADICTION_THRESHOLD:
-            contradictions.append(Contradiction(
+    comparable = [
+        e 
+        for e in evidence
+        if e.source != "declared" and _is_level_comparable(e)
+    ]
+
+    if not comparable:
+        return contradictions
+
+    avg_confirmed = sum(e.value for e in comparable) / len(comparable)
+
+    if abs(declared_level - avg_confirmed) >= CONTRADICTION_THRESHOLD:
+        contradictions.append(
+            Contradiction(
                 description=(
                     f"Заявленный уровень {skill}={declared_level}, "
-                    f"но средний по метрикам ~{avg_confirmed:.1f}"
+                    f"но средний подтвержденный уровень ~{avg_confirmed:.2f}"
                 ),
-                sources=["declared"] + [e.source for e in measured],
+                sources=["declared"] + [e.source for e in comparable],
                 severity="warning",
-            ))
+            )
+        )
     return contradictions
 
 
@@ -158,6 +176,14 @@ def evaluate_employee(
         contradictions = _detect_contradictions(skill, declared_level, evidence)
 
         #4 Статус
+        if not _has_sufficient_evidence(evidence):
+            status = AssessmentStatus.INSUFFICIENT
+        elif contradictions:
+            status = AssessmentStatus.CONTRADICTORY
+        else:
+            status = AssessmentStatus.SUFFICIENT
+
+        # старый блок с багом на пустую проверку проверку
         if contradictions:
             status = AssessmentStatus.CONTRADICTORY
         elif _has_sufficient_evidence(evidence):

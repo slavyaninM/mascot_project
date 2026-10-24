@@ -137,10 +137,13 @@ pip install -U pytest pytest-asyncio
     - *VS Code*: Откройте палитру команд (`Ctrl+Shift+P` или `Cmd+Shift+P`), введите `Python: Configure Tests`, выберите `pytest` и укажите папку с тестами.
 ### Как запускать:
 ```
+
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1  # перейти в окружение из папки .venv
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+pip install requests
+
 # Из корня проекта
-
-.venv\Scripts\Activate.ps1
-
 pytest
 
 # С подробным выводом
@@ -160,3 +163,6 @@ pytest -x
 
 # Показать 10 самых медленных
 pytest --durations=10
+
+# Выйти из окружения
+deactivate```

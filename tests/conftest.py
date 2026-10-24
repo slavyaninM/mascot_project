@@ -16,7 +16,7 @@ def make_employee(
     id: str = "emp_001",
     name: str = "Test Employee",
     role: str = "Developer",
-    skills: dict[str, int] | None = None,
+    skills: dict[str, float] | None = None,  # поменял на вещественное
     available: bool = True,
 ) -> Employee:
     return Employee(

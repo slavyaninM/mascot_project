@@ -133,7 +133,7 @@ class TestCoverage:
 
         cov = report.requirement_coverages[0]
         assert cov.status == RequirementStatus.PARTIAL
-        assert cov.deficit == 3.0
+        assert cov.deficit == 0.6
         assert 0.0 < cov.coverage_ratio < 1.0
 
     def test_uncovered_requirement_unknown_data(self):
@@ -212,16 +212,16 @@ class TestMetrics:
         project = make_project(
             team_size=1,
             requirements=[
-                make_requirement("python", 0.8, weight=1.0),  # дефицит 2
-                make_requirement("sql", 0.6, weight=2.0),     # дефицит 2
+                make_requirement("python", 0.8, weight=1.0),  # дефицит 0.4
+                make_requirement("sql", 0.6, weight=2.0),     # дефицит 0.4
             ],
         )
         evaluations = [evaluate_employee(e) for e in employees]
 
         report = build_team(project, evaluations, employees)
 
-        # weighted_deficit = 1.0*2 + 2.0*2 = 6.0
-        assert report.weighted_deficit == pytest.approx(6.0)
+        # weighted_deficit = 1.0*0.4 + 2.0*0.4 = 1.2
+        assert report.weighted_deficit == pytest.approx(1.2)
 
 
 # =============================================================================
@@ -315,7 +315,7 @@ class TestInternalFunctions:
         emp = make_employee(id="e1", skills={"python": 0.6})
         evaluation = make_evaluation(
             employee_id="e1",
-            assessments=[make_assessment(competency="python", level=4.0)],
+            assessments=[make_assessment(competency="python", level=0.8)],
         )
         employees_by_id = {"e1": emp}
         evaluations_by_id = {"e1": evaluation}
@@ -327,7 +327,8 @@ class TestInternalFunctions:
             employees_by_id,
         )
 
-        assert cov.achieved_level == 4.0
+        assert cov.achieved_level == 0.8
+        assert cov.achieved_level > emp.skills["python"]
 
     def test_get_effective_level_fallback_to_skills(self):
         """Если оценки нет — используется Employee.skills с MEDIUM надёжностью."""
@@ -341,5 +342,5 @@ class TestInternalFunctions:
             employees_by_id,
         )
 
-        assert cov.achieved_level == 3.0
+        assert cov.achieved_level == 0.6
         assert cov.covered_by_reliability == ReliabilityLevel.MEDIUM
