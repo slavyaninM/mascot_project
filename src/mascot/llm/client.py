@@ -1,8 +1,9 @@
 import os
 import httpx
 import logging
+import uuid
 
-logger = logging.getLogger("atlas.llm_client")
+logger = logging.getLogger("mascot.llm_client")
 
 
 class LLMClient:
