@@ -54,7 +54,7 @@ class ProjectInterpreterAgent(BaseAgent):
             return f.read()
 
     async def process(self, message: AgentMessage) -> AgentMessage | None:
-        # 1. Фильтруем тип сообщения (агент слушает запросы на анализ спецификаций)
+        # 1. Фильтруем тип сообщения
         if message.message_type != "ANALYZE_PROJECT_SPEC":
             return None
 
