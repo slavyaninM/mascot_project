@@ -1,13 +1,15 @@
+import uuid
+import logging
 import pandas as pd
 from typing import List, Dict, Any
 from sqlalchemy.orm import Session
 from sqlalchemy import text
 
+from src.mascot.core.base_agent import BaseAgent
+from src.mascot.core.message import AgentMessage
 
-from src.mascot.storage.models import EmployeeProfile
 
-
-class BenchmarkerAgent:
+class BenchmarkerAgent(BaseAgent):
     def __init__(self, min_cohort_size: int = 3):
         """
         Инициализация бенчмаркера.
@@ -20,6 +22,25 @@ class BenchmarkerAgent:
             "git": {"commits_count": 20, "pr_opened": 5},
             "jira": {"tasks_closed": 10, "bugs_count": 2, "avg_time_hours": 8.0},
             "lms": {"courses_completed": 1, "avg_score": 75.0}
+        }
+
+        self.metric_weights = {
+            "git.commits_count": 1.5,
+            "git.failed_pipelines": 2.0,
+            "jira.tasks_closed": 1.0,
+            "jira.bugs_count": 2.5,
+            "jira.avg_time_hours": 1.5,
+            "lms.avg_score": 1.0
+        }
+
+
+        self.inverse_metrics = {
+            "jira.bugs_count",
+            "jira.avg_time_hours",
+            "git.rejected_prs",
+            "git.failed_pipelines",
+            "jira.reopened_tasks",
+            "jira.overdue_tasks"
         }
 
     def _load_cohort_from_db(self, db: Session,
@@ -80,7 +101,7 @@ class BenchmarkerAgent:
                                    "jira.overdue_tasks"]
 
                 if column_name in inverse_metrics:
-                    # Если время или баги НИЖЕ среднего — это ХОРОШО (above_average)
+                    # Если время или баги НИЖЕ среднего — это ХОРОШО
                     if delta_pct < -10:
                         status = "above_average"
                     elif delta_pct > 10:
@@ -88,7 +109,6 @@ class BenchmarkerAgent:
                     else:
                         status = "average"
                 else:
-                    # Стандартная логика: если метрика ВЫШЕ среднего — это ХОРОШО
                     if delta_pct > 10:
                         status = "above_average"
                     elif delta_pct < -10:
@@ -105,50 +125,125 @@ class BenchmarkerAgent:
 
         return comparison_results
 
-    def calculate_benchmarks(self, current_profile: EmployeeProfile,
-                             db: Session,
-                             period: str) -> EmployeeProfile:
+    def _calculate_benchmarks_engine(self, current_metrics: Dict[str, Any], reference_df: pd.DataFrame) -> Dict[
+        str, Any]:
         """
-        Основной метод агента. Принимает Pydantic-профиль, обогащает его блоком benchmark и возвращает обратно.
+        Внутренний математический движок.
+        Реализует детерминированный расчет Be и Delta_m_adj (cite: 1).
         """
-        role = current_profile.role
-        grade = current_profile.grade
+        metrics_comparison = {}
+        total_weighted_delta = 0.0
+        total_weight = 0.0
 
-        # 1. Попытка загрузить внутреннюю когорту из БД
-        raw_cohort = self._load_cohort_from_db(db, role, grade, period=period)
+        for system_name, system_metrics in current_metrics.items():
+            for metric_key, employee_value in system_metrics.items():
+                column_name = f"{system_name}.{metric_key}"
+                v_m = self.metric_weights.get(column_name, 1.0)  # Вес v_m (по умолчанию 1.0)
 
-        # Разворачиваем вложенные JSON-метрики когорты в плоский Pandas DataFrame для удобства расчетов
-        if raw_cohort:
-            cohort_df = pd.json_normalize(raw_cohort)
+                # 1. Получаем среднее значение x_m (когорта или рынок) (cite: 1)
+                if not reference_df.empty and column_name in reference_df.columns:
+                    x_m = reference_df[column_name].mean()
+                else:
+                    x_m = self.market_defaults.get(system_name, {}).get(metric_key, 0.0)
+
+                x_im = float(employee_value)
+
+                # 2. Расчет отклонения Delta_m
+                if x_m != 0:
+                    delta_m = (x_im - x_m) / x_m
+                else:
+                    delta_m = 0.0
+
+                # 3. Корректировка знака для инвертированных метрик
+                if column_name in self.inverse_metrics:
+                    delta_m_adj = -delta_m  # Инвертируем (cite: 1)
+                else:
+                    delta_m_adj = delta_m
+
+                # Накапливаем значения для итогового индекса Be
+                total_weighted_delta += v_m * delta_m_adj
+                total_weight += v_m
+
+                metrics_comparison[column_name] = {
+                    "employee_value": x_im,
+                    "cohort_mean": round(float(x_m), 2),
+                    "delta_adjusted": round(delta_m_adj, 4)
+                }
+
+        # 4. Расчет итогового индекса Be
+        if total_weight > 0:
+            be = 100 * (total_weighted_delta / total_weight)
         else:
-            cohort_df = pd.DataFrame()
+            be = 0.0
 
-        # 2. Определяем режим: внутренний (global) или рыночный (рыночные дефолты)
-        if not cohort_df.empty and len(cohort_df) >= self.min_cohort_size:
-            compared_at_global = True
-            cohort_size = len(cohort_df)
-            reference_df = cohort_df
+        # 5. Определение качественного статуса по порогам
+        if be >= 10:
+            status = "above_average"
+        elif be <= -10:
+            status = "below_average"
         else:
-            compared_at_global = False
-            cohort_size = 0
-            # Создаем фейковый DataFrame из одной строки рыночных эталонов для унификации математики
-            market_flat = {}
-            for sys, metrics in self.market_defaults.items():
-                for k, v in metrics.items():
-                    market_flat[f"{sys}.{k}"] = v
-            reference_df = pd.DataFrame([market_flat])
+            status = "average"
 
-        # 3. Запускаем расчет сравнения метрик
-        metrics_comparison = self._calculate_metrics_comparison(
-            current_metrics=current_profile.metrics,
-            reference_df=reference_df
-        )
-
-        # 4. Перезаписываем поле benchmark в Pydantic-модели
-        current_profile.benchmark = {
-            "cohort_size": cohort_size,
-            "compared_at_global": compared_at_global,
+        return {
+            "benchmark_index": round(be, 2),
+            "status": status,  # cite: 1
             "metrics_comparison": metrics_comparison
         }
 
-        return current_profile
+    async def process(self, message: AgentMessage) -> AgentMessage | None:
+        """Точка входа агента при работе через асинхронную шину."""
+        if message.message_type != "RUN_BENCHMARKING":
+            return None
+
+        employee_id = message.payload.get("employee_id")
+        role = message.payload.get("role")
+        grade = message.payload.get("grade")
+        period = message.payload.get("period")
+        current_metrics = message.payload.get("metrics")  # {'git': {...}, 'jira': {...}}
+
+        # Передаем сессию БД из инжектора или контекста (в прод-версии)
+        db: Session = message.payload.get("db_session")
+
+        self.log_action(f"Запуск детерминированного бенчмаркинга для сотрудника {employee_id}")
+
+        try:
+            # 1. Загрузка когорты
+            raw_cohort = self._load_cohort_from_db(db, role, grade, period=period)
+            cohort_df = pd.json_normalize(raw_cohort) if raw_cohort else pd.DataFrame()
+
+            # 2. Выбор режима (когорта или рынок) (cite: 1)
+            if not cohort_df.empty and len(cohort_df) >= self.min_cohort_size:
+                compared_at_global = True
+                cohort_size = len(cohort_df)
+                reference_df = cohort_df
+            else:
+                compared_at_global = False  # Переключение на рыночные эталоны (cite: 1)
+                cohort_size = 0
+                market_flat = {f"{sys}.{k}": v for sys, metrics in self.market_defaults.items() for k, v in
+                               metrics.items()}
+                reference_df = pd.DataFrame([market_flat])
+
+            # 3. Вычисление
+            analysis = self._calculate_benchmarks_engine(current_metrics, reference_df)
+
+            # 4. Формирование ответа
+            return AgentMessage(
+                message_id=f"msg_{uuid.uuid4().hex[:8]}",
+                sender=self.name,
+                receiver=message.sender,
+                message_type="BENCHMARK_PROCESSED",
+                payload={
+                    "employee_id": employee_id,
+                    "benchmark": {
+                        "cohort_size": cohort_size,
+                        "compared_at_global": compared_at_global,
+                        "benchmark_index": analysis["benchmark_index"],
+                        "status": analysis["status"],  # cite: 1
+                        "metrics_comparison": analysis["metrics_comparison"]
+                    }
+                }
+            )
+
+        except Exception as e:
+            logger.error(f"Сбой бенчмаркинга для сотрудника {employee_id}: {e}", exc_info=True)
+            return None
