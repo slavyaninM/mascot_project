@@ -91,14 +91,50 @@ class EvaluatorAgent(BaseAgent):
         prompt = f"Сравни навыки сотрудника с эталонной матрицей роли. Данные: {data}"
         return await self.llm.generate(prompt, system_prompt="Ты эксперт по профилированию ролей и поиску дефицитов навыков.")
 
-    def _sub_agent_kpi_okr(self, data: Dict[str, Any]) -> Dict[str, Any]:
-        """Модуль 3 (Скрипт): Детерминированный расчет планов, скоростей и ошибок."""
-        # Чистая математика, без LLM (температура = 0 не нужна, это обычный Python-код)
-        metrics = data.get("payload", {})
-        commits = metrics.get("commits_count", 0)
-        # Пример простейшего расчета
-        kpi_score = min(100, commits * 5)
-        return {"kpi_execution_rate": f"{kpi_score}%", "processed_by": "DeterministicScript"}
+    def _calculate_employee_match(self, employee_skills: dict, role_requirements: dict) -> dict:
+        """
+        Детерминированный расчет соответствия сотрудника роли (Match_er).
+        employee_skills: {'python': {'commits': 0.8, 'jira': 0.6}, 'asyncio': {...}}
+        role_requirements: {'python': {'required': 0.7, 'weight': 3}, 'asyncio': {...}}
+        """
+        total_weighted_gap = 0.0
+        total_weight = 0.0
+
+        # Источники и их уровни доверия (c_ik)
+        source_confidence = {"commits": 1.0, "jira": 0.8, "lms": 0.7, "feedback_360": 0.5}
+
+        for skill, req in role_requirements.items():
+            r_k = req.get("required", 0.0)
+            w_k = req.get("weight", 1.0)
+            total_weight += w_k
+
+            # 1. Считаем взвешенный уровень L_k по источникам
+            sources = employee_skills.get(skill, {})
+            if not sources:
+                l_k = 0.0
+            else:
+                top_sum = 0.0
+                bottom_sum = 0.0
+                for src_name, score in sources.items():
+                    c_ik = source_confidence.get(src_name, 0.5)
+                    top_sum += c_ik * score
+                    bottom_sum += c_ik
+                l_k = top_sum / bottom_sum if bottom_sum > 0 else 0.0
+
+            # 2. Компетентностный разрыв G_k = max(0, R_k - L_k)
+            g_k = max(0.0, r_k - l_k)  # cite: 1
+
+            total_weighted_gap += w_k * g_k
+
+        # 3. Итоговый процент Match_er
+        if total_weight == 0:
+            return {"match_percentage": 0, "status": "No requirements"}
+
+        match_er = 100 * (1 - (total_weighted_gap / total_weight))  # cite: 1
+        return {
+            "match_percentage": round(match_er, 2),
+            "processed_by": "DeterministicMatchEngine"
+        }
 
     async def _sub_agent_lms_trajectory(self, data: Dict[str, Any]) -> str:
         """Модуль 4 (LLM + Скрипт): Динамика обучения в LMS."""
