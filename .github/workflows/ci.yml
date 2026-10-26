@@ -3,8 +3,13 @@ name: CI
 on:
   push:
     branches:
+      - main
       - structure
+      - data_layer
+      - analitic_layer
   pull_request:
+    branches:
+      - main
 
 jobs:
   test:

@@ -1,0 +1,1772 @@
+[
+  {
+    "hr_system": {
+      "employee_id": "ТН-1001",
+      "full_name": "Кузнецов Александр Игоревич",
+      "position": "Бэкенд-разработчик",
+      "grade": "Middle",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2024-01-01",
+      "legal_entity": "ООО ТекИновации",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Демонстрирует развитое системное мышление. На интервью показал высокую мотивацию к обучению, однако склонен к перфекционизму, что иногда затягивает сроки.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.6,
+          "teamwork_collaboration": 4.52,
+          "problem_solving_creativity": 4.84,
+          "adaptability_stress_tolerance": 3.36,
+          "overall_average": 4.33
+        },
+        "peer_feedback_snippet": "Отличный специалист, но иногда слишком глубоко уходит в рефакторинг, из-за чего страдают бизнес-задачи спринта. Нужно развивать тайм-менеджмент.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "кузнецов_74",
+      "commits_count_30_days": 92,
+      "pull_requests": {
+        "opened": 5,
+        "merged": 21
+      },
+      "code_reviews_done": 17,
+      "primary_stack": [
+        "Python",
+        "Django",
+        "PostgreSQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 4,
+      "resolved_tasks_30_days": 24,
+      "story_points_delivered": 82,
+      "velocity_index": 1.09
+    },
+    "lms": {
+      "completed_courses_count": 7,
+      "current_learning_track": "Продвинутая архитектура веб-приложений",
+      "average_test_score_percent": 99
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.81,
+      "resolved_incidents": 13,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1002",
+      "full_name": "Сергеева Мария Ивановна",
+      "position": "Младший фронтенд-разработчик",
+      "grade": "Junior",
+      "department": "Департамент разработки (Frontend)",
+      "hire_date": "2021-12-15",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Сотрудник проявляет высокий уровень проактивности, легко идет на контакт с кросс-функциональными командами. Отлично воспринимает конструктивную критику.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.07,
+          "teamwork_collaboration": 4.04,
+          "problem_solving_creativity": 4.02,
+          "adaptability_stress_tolerance": 3.68,
+          "overall_average": 3.95
+        },
+        "peer_feedback_snippet": "Иногда проявляет излишнюю эмоциональность при обсуждении архитектурных подходов, но быстро остывает и принимает сторону аргументов и цифр.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "сергеева_20",
+      "commits_count_30_days": 85,
+      "pull_requests": {
+        "opened": 14,
+        "merged": 24
+      },
+      "code_reviews_done": 44,
+      "primary_stack": [
+        "React",
+        "TypeScript",
+        "Tailwind"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 3,
+      "resolved_tasks_30_days": 22,
+      "story_points_delivered": 33,
+      "velocity_index": 0.82
+    },
+    "lms": {
+      "completed_courses_count": 2,
+      "current_learning_track": "Автоматизация CI/CD пайплайнов",
+      "average_test_score_percent": 77
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.86,
+      "resolved_incidents": 3,
+      "sla_breaches": 1
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1003",
+      "full_name": "Попова Юлия Сергеевна",
+      "position": "Бэкенд-разработчик",
+      "grade": "Middle",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2025-11-06",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Исполнителен, внимателен к деталям, особенно при рутинных задачах. Навыки коммуникации развиты на базовом уровне, предпочитает письменную фиксацию договоренностей.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 3.81,
+          "teamwork_collaboration": 3.9,
+          "problem_solving_creativity": 4.9,
+          "adaptability_stress_tolerance": 4.37,
+          "overall_average": 4.25
+        },
+        "peer_feedback_snippet": "Отличный специалист, но иногда слишком глубоко уходит в рефакторинг, из-за чего страдают бизнес-задачи спринта. Нужно развивать тайм-менеджмент.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "попова_30",
+      "commits_count_30_days": 74,
+      "pull_requests": {
+        "opened": 17,
+        "merged": 12
+      },
+      "code_reviews_done": 45,
+      "primary_stack": [
+        "Java",
+        "Spring Boot",
+        "Docker"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 2,
+      "resolved_tasks_30_days": 30,
+      "story_points_delivered": 32,
+      "velocity_index": 0.91
+    },
+    "lms": {
+      "completed_courses_count": 1,
+      "current_learning_track": "Автоматизация CI/CD пайплайнов",
+      "average_test_score_percent": 87
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.27,
+      "resolved_incidents": 6,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1004",
+      "full_name": "Васильев Никита Владимирович",
+      "position": "Бэкенд-разработчик",
+      "grade": "Middle",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2024-10-13",
+      "legal_entity": "ООО ДиджиталЛаб",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Демонстрирует развитое системное мышление. На интервью показал высокую мотивацию к обучению, однако склонен к перфекционизму, что иногда затягивает сроки.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 3.71,
+          "teamwork_collaboration": 4.62,
+          "problem_solving_creativity": 4.31,
+          "adaptability_stress_tolerance": 4.54,
+          "overall_average": 4.29
+        },
+        "peer_feedback_snippet": "Отличный специалист, но иногда слишком глубоко уходит в рефакторинг, из-за чего страдают бизнес-задачи спринта. Нужно развивать тайм-менеджмент.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "васильев_75",
+      "commits_count_30_days": 78,
+      "pull_requests": {
+        "opened": 7,
+        "merged": 28
+      },
+      "code_reviews_done": 8,
+      "primary_stack": [
+        "Java",
+        "Spring Boot",
+        "Docker"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 1,
+      "resolved_tasks_30_days": 19,
+      "story_points_delivered": 105,
+      "velocity_index": 0.88
+    },
+    "lms": {
+      "completed_courses_count": 6,
+      "current_learning_track": "Основы управления ИТ-командой",
+      "average_test_score_percent": 94
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.06,
+      "resolved_incidents": 12,
+      "sla_breaches": 1
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1005",
+      "full_name": "Иванова Ирина Дмитриевна",
+      "position": "Ведущий специалист по ручному тестированию",
+      "grade": "Lead",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2022-08-01",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Исполнителен, внимателен к деталям, особенно при рутинных задачах. Навыки коммуникации развиты на базовом уровне, предпочитает письменную фиксацию договоренностей.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.63,
+          "teamwork_collaboration": 4.65,
+          "problem_solving_creativity": 4.01,
+          "adaptability_stress_tolerance": 3.73,
+          "overall_average": 4.25
+        },
+        "peer_feedback_snippet": "Надежный коллега. На дейли всегда четко и по делу. Не боится брать ответственность за сложные и недокументированные модули системы.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "иванова_74",
+      "commits_count_30_days": 112,
+      "pull_requests": {
+        "opened": 10,
+        "merged": 20
+      },
+      "code_reviews_done": 11,
+      "primary_stack": [
+        "Postman",
+        "DevTools",
+        "SQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 3,
+      "resolved_tasks_30_days": 42,
+      "story_points_delivered": 102,
+      "velocity_index": 0.9
+    },
+    "lms": {
+      "completed_courses_count": 3,
+      "current_learning_track": "Оптимизация высоконагруженных СУБД",
+      "average_test_score_percent": 92
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.95,
+      "resolved_incidents": 0,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1006",
+      "full_name": "Петрова Елена Ивановна",
+      "position": "Бэкенд-разработчик",
+      "grade": "Middle",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2024-02-25",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Демонстрирует развитое системное мышление. На интервью показал высокую мотивацию к обучению, однако склонен к перфекционизму, что иногда затягивает сроки.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 3.59,
+          "teamwork_collaboration": 4.82,
+          "problem_solving_creativity": 4.92,
+          "adaptability_stress_tolerance": 3.35,
+          "overall_average": 4.17
+        },
+        "peer_feedback_snippet": "Отличный специалист, но иногда слишком глубоко уходит в рефакторинг, из-за чего страдают бизнес-задачи спринта. Нужно развивать тайм-менеджмент.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "петрова_94",
+      "commits_count_30_days": 75,
+      "pull_requests": {
+        "opened": 22,
+        "merged": 9
+      },
+      "code_reviews_done": 21,
+      "primary_stack": [
+        "Python",
+        "Django",
+        "PostgreSQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 4,
+      "resolved_tasks_30_days": 23,
+      "story_points_delivered": 94,
+      "velocity_index": 1.18
+    },
+    "lms": {
+      "completed_courses_count": 6,
+      "current_learning_track": "Оптимизация высоконагруженных СУБД",
+      "average_test_score_percent": 97
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.31,
+      "resolved_incidents": 11,
+      "sla_breaches": 1
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1007",
+      "full_name": "Сергеева Анна Игоревна",
+      "position": "Младший бэкенд-разработчик",
+      "grade": "Junior",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2021-04-03",
+      "legal_entity": "ООО ТекИновации",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Прекрасный командный игрок, развита эмпатия. Умеет сглаживать острые углы в конфликтных ситуациях и доступно объяснять сложные технические вещи.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 3.53,
+          "teamwork_collaboration": 4.33,
+          "problem_solving_creativity": 4.38,
+          "adaptability_stress_tolerance": 3.21,
+          "overall_average": 3.86
+        },
+        "peer_feedback_snippet": "Всегда готов прийти на помощь и подсказать по архитектуре проекта. Проводить код-ревью с ним — одно удовольствие.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "сергеева_75",
+      "commits_count_30_days": 45,
+      "pull_requests": {
+        "opened": 13,
+        "merged": 25
+      },
+      "code_reviews_done": 36,
+      "primary_stack": [
+        "Java",
+        "Spring Boot",
+        "Docker"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 2,
+      "resolved_tasks_30_days": 44,
+      "story_points_delivered": 41,
+      "velocity_index": 1.16
+    },
+    "lms": {
+      "completed_courses_count": 5,
+      "current_learning_track": "Тестирование безопасности API",
+      "average_test_score_percent": 90
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.24,
+      "resolved_incidents": 15,
+      "sla_breaches": 1
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1008",
+      "full_name": "Петров Дмитрий Алексеевич",
+      "position": "Инженер по автоматизации тестирования",
+      "grade": "Middle",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2021-01-13",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Прекрасный командный игрок, развита эмпатия. Умеет сглаживать острые углы в конфликтных ситуациях и доступно объяснять сложные технические вещи.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.12,
+          "teamwork_collaboration": 4.8,
+          "problem_solving_creativity": 3.58,
+          "adaptability_stress_tolerance": 4.38,
+          "overall_average": 4.22
+        },
+        "peer_feedback_snippet": "Всегда готов прийти на помощь и подсказать по архитектуре проекта. Проводить код-ревью с ним — одно удовольствие.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "петров_41",
+      "commits_count_30_days": 39,
+      "pull_requests": {
+        "opened": 11,
+        "merged": 21
+      },
+      "code_reviews_done": 33,
+      "primary_stack": [
+        "Python",
+        "Pytest",
+        "Selenium"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 2,
+      "resolved_tasks_30_days": 37,
+      "story_points_delivered": 48,
+      "velocity_index": 0.94
+    },
+    "lms": {
+      "completed_courses_count": 2,
+      "current_learning_track": "Продвинутая архитектура веб-приложений",
+      "average_test_score_percent": 89
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.81,
+      "resolved_incidents": 3,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1009",
+      "full_name": "Сергеев Дмитрий Сергеевич",
+      "position": "Старший инженер по автоматизации тестирования",
+      "grade": "Senior",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2021-07-09",
+      "legal_entity": "ООО ДиджиталЛаб",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Прекрасный командный игрок, развита эмпатия. Умеет сглаживать острые углы в конфликтных ситуациях и доступно объяснять сложные технические вещи.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.22,
+          "teamwork_collaboration": 4.8,
+          "problem_solving_creativity": 4.85,
+          "adaptability_stress_tolerance": 3.5,
+          "overall_average": 4.34
+        },
+        "peer_feedback_snippet": "Иногда проявляет излишнюю эмоциональность при обсуждении архитектурных подходов, но быстро остывает и принимает сторону аргументов и цифр.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "сергеев_99",
+      "commits_count_30_days": 137,
+      "pull_requests": {
+        "opened": 28,
+        "merged": 21
+      },
+      "code_reviews_done": 47,
+      "primary_stack": [
+        "Python",
+        "Pytest",
+        "Selenium"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 4,
+      "resolved_tasks_30_days": 19,
+      "story_points_delivered": 49,
+      "velocity_index": 0.95
+    },
+    "lms": {
+      "completed_courses_count": 1,
+      "current_learning_track": "Тестирование безопасности API",
+      "average_test_score_percent": 98
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.54,
+      "resolved_incidents": 10,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1010",
+      "full_name": "Соколов Павел Николаевич",
+      "position": "Старший бэкенд-разработчик",
+      "grade": "Senior",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2021-11-28",
+      "legal_entity": "ООО ТекИновации",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Ориентирован на результат, обладает высокой стрессоустойчивостью. Способен эффективно работать в условиях неопределенности и жестких дедлайнов.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 3.59,
+          "teamwork_collaboration": 4.26,
+          "problem_solving_creativity": 4.78,
+          "adaptability_stress_tolerance": 3.32,
+          "overall_average": 3.99
+        },
+        "peer_feedback_snippet": "Всегда готов прийти на помощь и подсказать по архитектуре проекта. Проводить код-ревью с ним — одно удовольствие.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "соколов_82",
+      "commits_count_30_days": 46,
+      "pull_requests": {
+        "opened": 23,
+        "merged": 23
+      },
+      "code_reviews_done": 7,
+      "primary_stack": [
+        "Python",
+        "Django",
+        "PostgreSQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 1,
+      "resolved_tasks_30_days": 36,
+      "story_points_delivered": 109,
+      "velocity_index": 1.09
+    },
+    "lms": {
+      "completed_courses_count": 5,
+      "current_learning_track": "Автоматизация CI/CD пайплайнов",
+      "average_test_score_percent": 83
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.2,
+      "resolved_incidents": 10,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1011",
+      "full_name": "Смирнова Наталья Михайловна",
+      "position": "Старший бэкенд-разработчик",
+      "grade": "Senior",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2025-02-03",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Демонстрирует развитое системное мышление. На интервью показал высокую мотивацию к обучению, однако склонен к перфекционизму, что иногда затягивает сроки.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.89,
+          "teamwork_collaboration": 4.9,
+          "problem_solving_creativity": 3.51,
+          "adaptability_stress_tolerance": 4.32,
+          "overall_average": 4.4
+        },
+        "peer_feedback_snippet": "Четко ставит задачи и дает понятный фидбек. Коммуникация прозрачная, никаких подводных камней в совместной работе.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "смирнова_43",
+      "commits_count_30_days": 31,
+      "pull_requests": {
+        "opened": 16,
+        "merged": 6
+      },
+      "code_reviews_done": 20,
+      "primary_stack": [
+        "Java",
+        "Spring Boot",
+        "Docker"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 3,
+      "resolved_tasks_30_days": 28,
+      "story_points_delivered": 45,
+      "velocity_index": 1.02
+    },
+    "lms": {
+      "completed_courses_count": 5,
+      "current_learning_track": "Паттерны проектирования микросервисов",
+      "average_test_score_percent": 84
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.61,
+      "resolved_incidents": 0,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1012",
+      "full_name": "Кузнецов Сергей Дмитриевич",
+      "position": "Младший специалист по ручному тестированию",
+      "grade": "Junior",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2023-09-16",
+      "legal_entity": "ООО ДиджиталЛаб",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Сотрудник проявляет высокий уровень проактивности, легко идет на контакт с кросс-функциональными командами. Отлично воспринимает конструктивную критику.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 3.73,
+          "teamwork_collaboration": 3.92,
+          "problem_solving_creativity": 3.82,
+          "adaptability_stress_tolerance": 3.82,
+          "overall_average": 3.82
+        },
+        "peer_feedback_snippet": "Всегда готов прийти на помощь и подсказать по архитектуре проекта. Проводить код-ревью с ним — одно удовольствие.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "кузнецов_91",
+      "commits_count_30_days": 69,
+      "pull_requests": {
+        "opened": 13,
+        "merged": 5
+      },
+      "code_reviews_done": 5,
+      "primary_stack": [
+        "Postman",
+        "DevTools",
+        "SQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 3,
+      "resolved_tasks_30_days": 18,
+      "story_points_delivered": 106,
+      "velocity_index": 1.29
+    },
+    "lms": {
+      "completed_courses_count": 2,
+      "current_learning_track": "Паттерны проектирования микросервисов",
+      "average_test_score_percent": 89
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.55,
+      "resolved_incidents": 13,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1013",
+      "full_name": "Смирнов Дмитрий Николаевич",
+      "position": "Младший бэкенд-разработчик",
+      "grade": "Junior",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2021-06-07",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Демонстрирует развитое системное мышление. На интервью показал высокую мотивацию к обучению, однако склонен к перфекционизму, что иногда затягивает сроки.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.37,
+          "teamwork_collaboration": 3.72,
+          "problem_solving_creativity": 3.69,
+          "adaptability_stress_tolerance": 3.75,
+          "overall_average": 3.88
+        },
+        "peer_feedback_snippet": "Проявляет лидерские качества, де-факто менторит джунов в команде, даже если это не входит в прямые обязанности. Очень ценный тиммейт.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "смирнов_23",
+      "commits_count_30_days": 60,
+      "pull_requests": {
+        "opened": 29,
+        "merged": 21
+      },
+      "code_reviews_done": 31,
+      "primary_stack": [
+        "Java",
+        "Spring Boot",
+        "Docker"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 2,
+      "resolved_tasks_30_days": 25,
+      "story_points_delivered": 45,
+      "velocity_index": 1.29
+    },
+    "lms": {
+      "completed_courses_count": 7,
+      "current_learning_track": "Оптимизация высоконагруженных СУБД",
+      "average_test_score_percent": 88
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.02,
+      "resolved_incidents": 10,
+      "sla_breaches": 1
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1014",
+      "full_name": "Смирнов Михаил Дмитриевич",
+      "position": "Старший фронтенд-разработчик",
+      "grade": "Senior",
+      "department": "Департамент разработки (Frontend)",
+      "hire_date": "2023-04-08",
+      "legal_entity": "ООО ТекИновации",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Исполнителен, внимателен к деталям, особенно при рутинных задачах. Навыки коммуникации развиты на базовом уровне, предпочитает письменную фиксацию договоренностей.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.79,
+          "teamwork_collaboration": 3.83,
+          "problem_solving_creativity": 4.72,
+          "adaptability_stress_tolerance": 4.03,
+          "overall_average": 4.34
+        },
+        "peer_feedback_snippet": "Отличный специалист, но иногда слишком глубоко уходит в рефакторинг, из-за чего страдают бизнес-задачи спринта. Нужно развивать тайм-менеджмент.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "смирнов_61",
+      "commits_count_30_days": 57,
+      "pull_requests": {
+        "opened": 13,
+        "merged": 6
+      },
+      "code_reviews_done": 22,
+      "primary_stack": [
+        "React",
+        "TypeScript",
+        "Tailwind"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 3,
+      "resolved_tasks_30_days": 42,
+      "story_points_delivered": 76,
+      "velocity_index": 1.14
+    },
+    "lms": {
+      "completed_courses_count": 7,
+      "current_learning_track": "Тестирование безопасности API",
+      "average_test_score_percent": 85
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.94,
+      "resolved_incidents": 3,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1015",
+      "full_name": "Кузнецов Павел Александрович",
+      "position": "Младший специалист по ручному тестированию",
+      "grade": "Junior",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2025-02-13",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Демонстрирует развитое системное мышление. На интервью показал высокую мотивацию к обучению, однако склонен к перфекционизму, что иногда затягивает сроки.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.15,
+          "teamwork_collaboration": 4.59,
+          "problem_solving_creativity": 3.97,
+          "adaptability_stress_tolerance": 4.29,
+          "overall_average": 4.25
+        },
+        "peer_feedback_snippet": "Надежный коллега. На дейли всегда четко и по делу. Не боится брать ответственность за сложные и недокументированные модули системы.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "кузнецов_15",
+      "commits_count_30_days": 105,
+      "pull_requests": {
+        "opened": 18,
+        "merged": 4
+      },
+      "code_reviews_done": 38,
+      "primary_stack": [
+        "Postman",
+        "DevTools",
+        "SQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 2,
+      "resolved_tasks_30_days": 33,
+      "story_points_delivered": 80,
+      "velocity_index": 0.83
+    },
+    "lms": {
+      "completed_courses_count": 6,
+      "current_learning_track": "Автоматизация CI/CD пайплайнов",
+      "average_test_score_percent": 94
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.31,
+      "resolved_incidents": 3,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1016",
+      "full_name": "Попова Наталья Алексеевна",
+      "position": "Ведущий бэкенд-разработчик",
+      "grade": "Lead",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2022-10-19",
+      "legal_entity": "ООО ДиджиталЛаб",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Ориентирован на результат, обладает высокой стрессоустойчивостью. Способен эффективно работать в условиях неопределенности и жестких дедлайнов.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.33,
+          "teamwork_collaboration": 3.79,
+          "problem_solving_creativity": 4.5,
+          "adaptability_stress_tolerance": 3.88,
+          "overall_average": 4.12
+        },
+        "peer_feedback_snippet": "Четко ставит задачи и дает понятный фидбек. Коммуникация прозрачная, никаких подводных камней в совместной работе.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "попова_10",
+      "commits_count_30_days": 53,
+      "pull_requests": {
+        "opened": 14,
+        "merged": 10
+      },
+      "code_reviews_done": 32,
+      "primary_stack": [
+        "Java",
+        "Spring Boot",
+        "Docker"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 3,
+      "resolved_tasks_30_days": 39,
+      "story_points_delivered": 81,
+      "velocity_index": 1.02
+    },
+    "lms": {
+      "completed_courses_count": 2,
+      "current_learning_track": "Тестирование безопасности API",
+      "average_test_score_percent": 90
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.79,
+      "resolved_incidents": 5,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1017",
+      "full_name": "Федорова Ирина Ивановна",
+      "position": "Младший бэкенд-разработчик",
+      "grade": "Junior",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2022-08-20",
+      "legal_entity": "ООО ТекИновации",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Ориентирован на результат, обладает высокой стрессоустойчивостью. Способен эффективно работать в условиях неопределенности и жестких дедлайнов.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.51,
+          "teamwork_collaboration": 3.84,
+          "problem_solving_creativity": 3.8,
+          "adaptability_stress_tolerance": 3.24,
+          "overall_average": 3.85
+        },
+        "peer_feedback_snippet": "Иногда проявляет излишнюю эмоциональность при обсуждении архитектурных подходов, но быстро остывает и принимает сторону аргументов и цифр.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "федорова_90",
+      "commits_count_30_days": 88,
+      "pull_requests": {
+        "opened": 11,
+        "merged": 26
+      },
+      "code_reviews_done": 49,
+      "primary_stack": [
+        "Python",
+        "Django",
+        "PostgreSQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 4,
+      "resolved_tasks_30_days": 41,
+      "story_points_delivered": 76,
+      "velocity_index": 0.92
+    },
+    "lms": {
+      "completed_courses_count": 6,
+      "current_learning_track": "Паттерны проектирования микросервисов",
+      "average_test_score_percent": 75
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.89,
+      "resolved_incidents": 3,
+      "sla_breaches": 1
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1018",
+      "full_name": "Новиков Сергей Владимирович",
+      "position": "Младший специалист по ручному тестированию",
+      "grade": "Junior",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2025-09-20",
+      "legal_entity": "ООО ДиджиталЛаб",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Ориентирован на результат, обладает высокой стрессоустойчивостью. Способен эффективно работать в условиях неопределенности и жестких дедлайнов.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 3.87,
+          "teamwork_collaboration": 4.77,
+          "problem_solving_creativity": 4.18,
+          "adaptability_stress_tolerance": 4.64,
+          "overall_average": 4.37
+        },
+        "peer_feedback_snippet": "Четко ставит задачи и дает понятный фидбек. Коммуникация прозрачная, никаких подводных камней в совместной работе.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "новиков_74",
+      "commits_count_30_days": 69,
+      "pull_requests": {
+        "opened": 22,
+        "merged": 18
+      },
+      "code_reviews_done": 15,
+      "primary_stack": [
+        "Postman",
+        "DevTools",
+        "SQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 4,
+      "resolved_tasks_30_days": 38,
+      "story_points_delivered": 58,
+      "velocity_index": 1.18
+    },
+    "lms": {
+      "completed_courses_count": 7,
+      "current_learning_track": "Паттерны проектирования микросервисов",
+      "average_test_score_percent": 83
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.77,
+      "resolved_incidents": 15,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1019",
+      "full_name": "Петрова Юлия Михайловна",
+      "position": "Бэкенд-разработчик",
+      "grade": "Middle",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2024-12-05",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Демонстрирует развитое системное мышление. На интервью показал высокую мотивацию к обучению, однако склонен к перфекционизму, что иногда затягивает сроки.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.0,
+          "teamwork_collaboration": 4.84,
+          "problem_solving_creativity": 3.62,
+          "adaptability_stress_tolerance": 3.47,
+          "overall_average": 3.98
+        },
+        "peer_feedback_snippet": "Всегда готов прийти на помощь и подсказать по архитектуре проекта. Проводить код-ревью с ним — одно удовольствие.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "петрова_63",
+      "commits_count_30_days": 67,
+      "pull_requests": {
+        "opened": 15,
+        "merged": 21
+      },
+      "code_reviews_done": 34,
+      "primary_stack": [
+        "Java",
+        "Spring Boot",
+        "Docker"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 4,
+      "resolved_tasks_30_days": 13,
+      "story_points_delivered": 51,
+      "velocity_index": 1.22
+    },
+    "lms": {
+      "completed_courses_count": 4,
+      "current_learning_track": "Тестирование безопасности API",
+      "average_test_score_percent": 97
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.02,
+      "resolved_incidents": 12,
+      "sla_breaches": 1
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1020",
+      "full_name": "Кузнецов Иван Алексеевич",
+      "position": "Старший специалист по ручному тестированию",
+      "grade": "Senior",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2022-05-14",
+      "legal_entity": "ООО ДиджиталЛаб",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Сотрудник проявляет высокий уровень проактивности, легко идет на контакт с кросс-функциональными командами. Отлично воспринимает конструктивную критику.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.62,
+          "teamwork_collaboration": 4.32,
+          "problem_solving_creativity": 4.4,
+          "adaptability_stress_tolerance": 3.6,
+          "overall_average": 4.24
+        },
+        "peer_feedback_snippet": "Иногда проявляет излишнюю эмоциональность при обсуждении архитектурных подходов, но быстро остывает и принимает сторону аргументов и цифр.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "кузнецов_53",
+      "commits_count_30_days": 100,
+      "pull_requests": {
+        "opened": 26,
+        "merged": 16
+      },
+      "code_reviews_done": 15,
+      "primary_stack": [
+        "Postman",
+        "DevTools",
+        "SQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 4,
+      "resolved_tasks_30_days": 18,
+      "story_points_delivered": 104,
+      "velocity_index": 1.07
+    },
+    "lms": {
+      "completed_courses_count": 4,
+      "current_learning_track": "Тестирование безопасности API",
+      "average_test_score_percent": 93
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.66,
+      "resolved_incidents": 2,
+      "sla_breaches": 1
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1021",
+      "full_name": "Смирнов Никита Александрович",
+      "position": "Инженер по автоматизации тестирования",
+      "grade": "Middle",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2023-07-09",
+      "legal_entity": "ООО ТекИновации",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Ориентирован на результат, обладает высокой стрессоустойчивостью. Способен эффективно работать в условиях неопределенности и жестких дедлайнов.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 3.99,
+          "teamwork_collaboration": 4.18,
+          "problem_solving_creativity": 4.01,
+          "adaptability_stress_tolerance": 4.78,
+          "overall_average": 4.24
+        },
+        "peer_feedback_snippet": "Всегда готов прийти на помощь и подсказать по архитектуре проекта. Проводить код-ревью с ним — одно удовольствие.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "смирнов_79",
+      "commits_count_30_days": 21,
+      "pull_requests": {
+        "opened": 16,
+        "merged": 11
+      },
+      "code_reviews_done": 46,
+      "primary_stack": [
+        "Python",
+        "Pytest",
+        "Selenium"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 1,
+      "resolved_tasks_30_days": 12,
+      "story_points_delivered": 28,
+      "velocity_index": 1.27
+    },
+    "lms": {
+      "completed_courses_count": 2,
+      "current_learning_track": "Продвинутая архитектура веб-приложений",
+      "average_test_score_percent": 94
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.15,
+      "resolved_incidents": 4,
+      "sla_breaches": 1
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1022",
+      "full_name": "Сергеев Павел Владимирович",
+      "position": "Ведущий бэкенд-разработчик",
+      "grade": "Lead",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2021-03-10",
+      "legal_entity": "ООО ТекИновации",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Инициативен, предлагает нестандартные решения архитектурных задач. Хорошо развиты навыки самоорганизации при удаленной работе.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.65,
+          "teamwork_collaboration": 3.75,
+          "problem_solving_creativity": 4.41,
+          "adaptability_stress_tolerance": 4.55,
+          "overall_average": 4.34
+        },
+        "peer_feedback_snippet": "Всегда готов прийти на помощь и подсказать по архитектуре проекта. Проводить код-ревью с ним — одно удовольствие.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "сергеев_49",
+      "commits_count_30_days": 88,
+      "pull_requests": {
+        "opened": 26,
+        "merged": 16
+      },
+      "code_reviews_done": 30,
+      "primary_stack": [
+        "Java",
+        "Spring Boot",
+        "Docker"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 2,
+      "resolved_tasks_30_days": 14,
+      "story_points_delivered": 100,
+      "velocity_index": 1.15
+    },
+    "lms": {
+      "completed_courses_count": 6,
+      "current_learning_track": "Оптимизация высоконагруженных СУБД",
+      "average_test_score_percent": 78
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.7,
+      "resolved_incidents": 9,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1023",
+      "full_name": "Новиков Иван Алексеевич",
+      "position": "Ведущий бэкенд-разработчик",
+      "grade": "Lead",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2024-02-14",
+      "legal_entity": "ООО ДиджиталЛаб",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Исполнителен, внимателен к деталям, особенно при рутинных задачах. Навыки коммуникации развиты на базовом уровне, предпочитает письменную фиксацию договоренностей.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 3.6,
+          "teamwork_collaboration": 4.47,
+          "problem_solving_creativity": 3.52,
+          "adaptability_stress_tolerance": 3.96,
+          "overall_average": 3.89
+        },
+        "peer_feedback_snippet": "Иногда проявляет излишнюю эмоциональность при обсуждении архитектурных подходов, но быстро остывает и принимает сторону аргументов и цифр.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "новиков_29",
+      "commits_count_30_days": 70,
+      "pull_requests": {
+        "opened": 10,
+        "merged": 27
+      },
+      "code_reviews_done": 38,
+      "primary_stack": [
+        "Java",
+        "Spring Boot",
+        "Docker"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 3,
+      "resolved_tasks_30_days": 44,
+      "story_points_delivered": 86,
+      "velocity_index": 1.03
+    },
+    "lms": {
+      "completed_courses_count": 7,
+      "current_learning_track": "Паттерны проектирования микросервисов",
+      "average_test_score_percent": 93
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.27,
+      "resolved_incidents": 7,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1024",
+      "full_name": "Сергеева Юлия Владимировна",
+      "position": "Старший специалист по ручному тестированию",
+      "grade": "Senior",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2024-04-12",
+      "legal_entity": "ООО ДиджиталЛаб",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Прекрасный командный игрок, развита эмпатия. Умеет сглаживать острые углы в конфликтных ситуациях и доступно объяснять сложные технические вещи.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.5,
+          "teamwork_collaboration": 4.0,
+          "problem_solving_creativity": 4.24,
+          "adaptability_stress_tolerance": 3.79,
+          "overall_average": 4.13
+        },
+        "peer_feedback_snippet": "Надежный коллега. На дейли всегда четко и по делу. Не боится брать ответственность за сложные и недокументированные модули системы.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "сергеева_86",
+      "commits_count_30_days": 104,
+      "pull_requests": {
+        "opened": 13,
+        "merged": 21
+      },
+      "code_reviews_done": 5,
+      "primary_stack": [
+        "Postman",
+        "DevTools",
+        "SQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 2,
+      "resolved_tasks_30_days": 15,
+      "story_points_delivered": 55,
+      "velocity_index": 1.16
+    },
+    "lms": {
+      "completed_courses_count": 4,
+      "current_learning_track": "Тестирование безопасности API",
+      "average_test_score_percent": 99
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.24,
+      "resolved_incidents": 15,
+      "sla_breaches": 1
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1025",
+      "full_name": "Петрова Елена Михайловна",
+      "position": "Инженер по автоматизации тестирования",
+      "grade": "Middle",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2025-06-14",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Инициативен, предлагает нестандартные решения архитектурных задач. Хорошо развиты навыки самоорганизации при удаленной работе.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.54,
+          "teamwork_collaboration": 3.96,
+          "problem_solving_creativity": 4.37,
+          "adaptability_stress_tolerance": 4.05,
+          "overall_average": 4.23
+        },
+        "peer_feedback_snippet": "Надежный коллега. На дейли всегда четко и по делу. Не боится брать ответственность за сложные и недокументированные модули системы.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "петрова_55",
+      "commits_count_30_days": 104,
+      "pull_requests": {
+        "opened": 19,
+        "merged": 12
+      },
+      "code_reviews_done": 24,
+      "primary_stack": [
+        "Python",
+        "Pytest",
+        "Selenium"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 3,
+      "resolved_tasks_30_days": 24,
+      "story_points_delivered": 40,
+      "velocity_index": 1.16
+    },
+    "lms": {
+      "completed_courses_count": 3,
+      "current_learning_track": "Продвинутая архитектура веб-приложений",
+      "average_test_score_percent": 98
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.54,
+      "resolved_incidents": 5,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1026",
+      "full_name": "Кузнецов Никита Андреевич",
+      "position": "Старший специалист по ручному тестированию",
+      "grade": "Senior",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2022-05-01",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Инициативен, предлагает нестандартные решения архитектурных задач. Хорошо развиты навыки самоорганизации при удаленной работе.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 3.92,
+          "teamwork_collaboration": 3.65,
+          "problem_solving_creativity": 3.79,
+          "adaptability_stress_tolerance": 3.61,
+          "overall_average": 3.74
+        },
+        "peer_feedback_snippet": "Отличный специалист, но иногда слишком глубоко уходит в рефакторинг, из-за чего страдают бизнес-задачи спринта. Нужно развивать тайм-менеджмент.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "кузнецов_45",
+      "commits_count_30_days": 20,
+      "pull_requests": {
+        "opened": 6,
+        "merged": 21
+      },
+      "code_reviews_done": 23,
+      "primary_stack": [
+        "Postman",
+        "DevTools",
+        "SQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 2,
+      "resolved_tasks_30_days": 41,
+      "story_points_delivered": 38,
+      "velocity_index": 1.24
+    },
+    "lms": {
+      "completed_courses_count": 5,
+      "current_learning_track": "Автоматизация CI/CD пайплайнов",
+      "average_test_score_percent": 90
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.48,
+      "resolved_incidents": 10,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1027",
+      "full_name": "Соколов Михаил Дмитриевич",
+      "position": "Младший инженер по автоматизации тестирования",
+      "grade": "Junior",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2025-05-03",
+      "legal_entity": "ООО ТекИновации",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Сотрудник проявляет высокий уровень проактивности, легко идет на контакт с кросс-функциональными командами. Отлично воспринимает конструктивную критику.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.24,
+          "teamwork_collaboration": 4.37,
+          "problem_solving_creativity": 4.53,
+          "adaptability_stress_tolerance": 3.47,
+          "overall_average": 4.15
+        },
+        "peer_feedback_snippet": "Четко ставит задачи и дает понятный фидбек. Коммуникация прозрачная, никаких подводных камней в совместной работе.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "соколов_63",
+      "commits_count_30_days": 92,
+      "pull_requests": {
+        "opened": 24,
+        "merged": 23
+      },
+      "code_reviews_done": 19,
+      "primary_stack": [
+        "Python",
+        "Pytest",
+        "Selenium"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 4,
+      "resolved_tasks_30_days": 38,
+      "story_points_delivered": 81,
+      "velocity_index": 0.95
+    },
+    "lms": {
+      "completed_courses_count": 5,
+      "current_learning_track": "Основы управления ИТ-командой",
+      "average_test_score_percent": 84
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.57,
+      "resolved_incidents": 1,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1028",
+      "full_name": "Кузнецов Илья Дмитриевич",
+      "position": "Бэкенд-разработчик",
+      "grade": "Middle",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2025-08-10",
+      "legal_entity": "ООО ТекИновации",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Демонстрирует развитое системное мышление. На интервью показал высокую мотивацию к обучению, однако склонен к перфекционизму, что иногда затягивает сроки.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 3.76,
+          "teamwork_collaboration": 3.61,
+          "problem_solving_creativity": 3.5,
+          "adaptability_stress_tolerance": 4.01,
+          "overall_average": 3.72
+        },
+        "peer_feedback_snippet": "Надежный коллега. На дейли всегда четко и по делу. Не боится брать ответственность за сложные и недокументированные модули системы.",
+        "growth_areas": [
+          "Развитие навыков публичных выступлений и презентации технических решений."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "кузнецов_46",
+      "commits_count_30_days": 104,
+      "pull_requests": {
+        "opened": 19,
+        "merged": 6
+      },
+      "code_reviews_done": 48,
+      "primary_stack": [
+        "Python",
+        "Django",
+        "PostgreSQL"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 2,
+      "resolved_tasks_30_days": 26,
+      "story_points_delivered": 105,
+      "velocity_index": 1.09
+    },
+    "lms": {
+      "completed_courses_count": 7,
+      "current_learning_track": "Оптимизация высоконагруженных СУБД",
+      "average_test_score_percent": 88
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.11,
+      "resolved_incidents": 7,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1029",
+      "full_name": "Петрова Мария Александровна",
+      "position": "Бэкенд-разработчик",
+      "grade": "Middle",
+      "department": "Департамент разработки (Backend)",
+      "hire_date": "2024-12-10",
+      "legal_entity": "АО Облачные Системы",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Ориентирован на результат, обладает высокой стрессоустойчивостью. Способен эффективно работать в условиях неопределенности и жестких дедлайнов.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.39,
+          "teamwork_collaboration": 4.74,
+          "problem_solving_creativity": 4.88,
+          "adaptability_stress_tolerance": 3.99,
+          "overall_average": 4.5
+        },
+        "peer_feedback_snippet": "Надежный коллега. На дейли всегда четко и по делу. Не боится брать ответственность за сложные и недокументированные модули системы.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "петрова_74",
+      "commits_count_30_days": 84,
+      "pull_requests": {
+        "opened": 20,
+        "merged": 18
+      },
+      "code_reviews_done": 10,
+      "primary_stack": [
+        "Java",
+        "Spring Boot",
+        "Docker"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 1,
+      "resolved_tasks_30_days": 37,
+      "story_points_delivered": 66,
+      "velocity_index": 1.1
+    },
+    "lms": {
+      "completed_courses_count": 1,
+      "current_learning_track": "Продвинутая архитектура веб-приложений",
+      "average_test_score_percent": 82
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.96,
+      "resolved_incidents": 0,
+      "sla_breaches": 0
+    }
+  },
+  {
+    "hr_system": {
+      "employee_id": "ТН-1030",
+      "full_name": "Соколов Сергей Николаевич",
+      "position": "Ведущий инженер по автоматизации тестирования",
+      "grade": "Lead",
+      "department": "Департамент качества (QA)",
+      "hire_date": "2024-02-16",
+      "legal_entity": "ООО ДиджиталЛаб",
+      "employment_type": "Полная занятость"
+    },
+    "soft_skills_and_feedback": {
+      "hr_interview_summary": "Ориентирован на результат, обладает высокой стрессоустойчивостью. Способен эффективно работать в условиях неопределенности и жестких дедлайнов.",
+      "performance_review_360": {
+        "assessment_period": "2026-Q2",
+        "scores": {
+          "communication_and_empathy": 4.87,
+          "teamwork_collaboration": 3.77,
+          "problem_solving_creativity": 4.38,
+          "adaptability_stress_tolerance": 4.34,
+          "overall_average": 4.34
+        },
+        "peer_feedback_snippet": "Надежный коллега. На дейли всегда четко и по делу. Не боится брать ответственность за сложные и недокументированные модули системы.",
+        "growth_areas": [
+          "Делегирование задач и развитие менторских навыков для перехода на следующий грейд."
+        ]
+      }
+    },
+    "git_analytics": {
+      "username": "соколов_51",
+      "commits_count_30_days": 100,
+      "pull_requests": {
+        "opened": 8,
+        "merged": 9
+      },
+      "code_reviews_done": 26,
+      "primary_stack": [
+        "Python",
+        "Pytest",
+        "Selenium"
+      ]
+    },
+    "task_tracker": {
+      "active_tasks": 4,
+      "resolved_tasks_30_days": 41,
+      "story_points_delivered": 61,
+      "velocity_index": 1.13
+    },
+    "lms": {
+      "completed_courses_count": 4,
+      "current_learning_track": "Тестирование безопасности API",
+      "average_test_score_percent": 76
+    },
+    "crm_service_desk": {
+      "customer_satisfaction_score_csat": 4.45,
+      "resolved_incidents": 10,
+      "sla_breaches": 0
+    }
+  }
+]

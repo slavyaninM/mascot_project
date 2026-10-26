@@ -183,16 +183,6 @@ def evaluate_employee(
         else:
             status = AssessmentStatus.SUFFICIENT
 
-        # старый блок с багом на пустую проверку проверку
-        if contradictions:
-            status = AssessmentStatus.CONTRADICTORY
-        elif _has_sufficient_evidence(evidence):
-            status = AssessmentStatus.SUFFICIENT
-        elif len(evidence) > 1:
-            status = AssessmentStatus.INSUFFICIENT
-        else:
-            status = AssessmentStatus.INSUFFICIENT  # только заявленное > недостаточно
-
         #5 Ограничения
         limitations = []
         if status == AssessmentStatus.INSUFFICIENT:

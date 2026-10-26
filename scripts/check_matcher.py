@@ -2,7 +2,7 @@ from src.mascot.agents.data_layer.integrator import (
     load_employees,
     load_projects,
 )
-from mascot.pipelines.distribute_team_bak import match_team
+from src.mascot.pipelines.distribute_team import match_team
 
 
 def main():

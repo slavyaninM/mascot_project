@@ -10,3 +10,4 @@ class AgentMessage(BaseModel):
     payload: Dict[str, Any] = Field(default_factory=dict, description="Полезная нагрузка (данные/JSON)")
     metadata: Dict[str, Any] = Field(default_factory=dict, description="Метаданные (токены, логи, трассировка)")
     timestamp: datetime = Field(default_factory=datetime.now, description="Время отправки")
+    message_type: str = Field(default="GENERIC", description="Тип сообщения")
