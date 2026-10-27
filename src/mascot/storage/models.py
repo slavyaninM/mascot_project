@@ -63,6 +63,7 @@ class EmployeeProfile(BaseModel):
     role: str
     grade: str
 
+
     # Метрики теперь несут провенанс (источник, период, уверенность).
     # Было: Dict[str, Any] с git/jira/lms.
     metrics: list[Metric] = Field(default_factory=list)
@@ -78,3 +79,4 @@ def get_metric(profile: EmployeeProfile, name: str) -> Metric | None:
         if metric.name == name:
             return metric
     return None
+main
