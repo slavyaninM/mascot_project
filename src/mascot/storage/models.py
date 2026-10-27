@@ -63,6 +63,7 @@ class EmployeeProfile(BaseModel):
     role: str
     grade: str
 
+<<<<<<< HEAD
     # Метрики теперь несут провенанс (источник, период, уверенность).
     # Было: Dict[str, Any] с git/jira/lms.
     metrics: list[Metric] = Field(default_factory=list)
@@ -78,3 +79,23 @@ def get_metric(profile: EmployeeProfile, name: str) -> Metric | None:
         if metric.name == name:
             return metric
     return None
+=======
+    # Сюда скрипты будут записывать сухие цифры
+    metrics: Dict[str, Any] = Field(
+        default_factory=lambda: {
+            "git": {"commits_count": 0, "pr_opened": 0},
+            "jira": {"tasks_closed": 0, "bugs_count": 0, "avg_time_hours": 0.0},
+            "lms": {"courses_completed": 0, "avg_score": 0.0}
+        }
+    )
+
+    benchmark: Dict[str, Any] = Field(
+        default_factory=lambda: {
+            "cohort_size": 0, # кол-во людей, с которыми сравниваем
+            "compared_at_global": True,  # Флаг: True — внутри компании, False — по рынку
+            "metrics_comparison": {}
+            # Сюда лягут дельты (например, "git.commits_count": {"delta_pct": 15.2, "status": "above_average"})
+        }
+    )
+    is_available: bool = True  # Флаг для Агента-Фильтра Доступности
+>>>>>>> analystics_layer
