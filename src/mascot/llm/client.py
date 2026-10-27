@@ -56,7 +56,6 @@ class LLMClient:
 
         #     cleaned = cleaned.strip()
         #     return response_model.model_validate_json(cleaned)
-        
         try:
             async with httpx.AsyncClient(timeout=30.0, verify=False) as client:  # verify=False часто нужен для сертификатов Сбера
                 response = await client.post(self.api_url, headers=headers, json=data)
