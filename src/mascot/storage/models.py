@@ -1,9 +1,5 @@
 from typing import Any
-
 from pydantic import BaseModel, Field
-#из старого коммита с другой ветки, если все нормально удалить
-from typing import List, Dict, Any, Optional
-
 from src.mascot.agents.trust_layer.metric import Metric
 
 

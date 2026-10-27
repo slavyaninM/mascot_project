@@ -1,7 +1,7 @@
 import os
 import httpx
 import logging
-import uuid
+import uuid # не используется?
 from pydantic import BaseModel
 import config.settings # noqa
 
@@ -45,6 +45,18 @@ class LLMClient:
             "temperature": 0.3
         }
 
+        # если гигачат будет возвращать обертку Джейсона, лучше очистить ответ перед валидацией(раскоментить при необходимости)
+        # if response_model is not None:
+        #     cleaned = content.strip()
+
+        # if cleaned.startswith("```"):
+        #     cleaned = cleaned.strip("`")
+        #     if cleaned.lower().startswith("json"):
+        #         cleaned = cleaned[4:]
+
+        #     cleaned = cleaned.strip()
+        #     return response_model.model_validate_json(cleaned)
+        
         try:
             async with httpx.AsyncClient(timeout=30.0, verify=False) as client:  # verify=False часто нужен для сертификатов Сбера
                 response = await client.post(self.api_url, headers=headers, json=data)

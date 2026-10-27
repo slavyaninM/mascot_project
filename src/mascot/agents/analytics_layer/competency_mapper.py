@@ -1,4 +1,4 @@
-from abc import abstractmethod
+# from abc import abstractmethod
 import os
 import uuid
 import logging
@@ -51,7 +51,7 @@ class CompetencyMapperAgent(BaseAgent):
         with open(self.prompt_path, "r", encoding="utf-8") as f:
             return f.read()
 
-    @abstractmethod
+    # @abstractmethod process уже реализует контракт(СВО?) так и должно быть
     async def process(self, message: AgentMessage) -> AgentMessage | None:
         # Агент слушает запросы на маппинг компетенций
         if message.message_type != "MAP_COMPETENCIES":

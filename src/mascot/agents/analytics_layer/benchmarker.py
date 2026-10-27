@@ -5,19 +5,16 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 import logging
 
-logger = logging.getLogger("mascot.benchmarker")
-
 from src.mascot.core.base_agent import BaseAgent
 from src.mascot.core.message import AgentMessage
 
+logger = logging.getLogger("mascot.benchmarker")
 
 class BenchmarkerAgent(BaseAgent):
     def __init__(self, name: str, agent_type: str, message_bus, min_cohort_size: int = 3):
+        # Инициализация бенчмаркера.
+        # min_cohort_size: Минимальное количество людей в когорте для внутреннего сравнения.
         super().__init__(name, agent_type, message_bus)
-        """
-        Инициализация бенчмаркера.
-        min_cohort_size: Минимальное количество людей в когорте для внутреннего сравнения.
-        """
         self.min_cohort_size = min_cohort_size
 
         # рыночные эталоны (внешний бенчмарк) на случай, если когорта в БД пуста

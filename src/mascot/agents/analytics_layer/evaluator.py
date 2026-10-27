@@ -162,3 +162,8 @@ class EvaluatorAgent(BaseAgent):
 
         # Для прототипа возвращаем словарь, в будущем здесь будет json.loads(ai_response)
         return {"employee_id": emp_id, "structured_analysis": ai_response}
+
+    # мини фикс заглушка метод нигде не определен
+    def _sub_agent_kpi_okr(self, data: Dict[str, Any]) -> dict:
+        """Модуль 3 (Скрипт): детерминированный расчёт KPI/OKR. TODO."""
+        return {"status": "not_implemented", "metrics": {}}
