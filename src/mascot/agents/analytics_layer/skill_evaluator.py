@@ -31,6 +31,18 @@ _METRIC_TO_SKILL = {
     "tasks_closed": "jira",
     "bugs_count": "jira",
     "courses_completed": "lms",
+
+     # v1
+    "commits_count_30_days": "git",
+    "code_reviews_done": "git",
+    "resolved_tasks_30_days": "jira",
+    "velocity_index": "jira",
+    "average_test_score_percent": "lms",
+    "customer_satisfaction_score_csat": "crm",
+    "360_communication_and_empathy": "communication",
+    "360_teamwork_collaboration": "teamwork",
+    "360_problem_solving_creativity": "problem_solving",
+    "360_adaptability_stress_tolerance": "adaptability",
 }
 
 
@@ -172,6 +184,12 @@ def evaluate_employee(
                         confidence=metric.confidence,
                     ))
 
+        # L_k = Σ(c_i · l_i) / Σ(c_i) — взвешенная сумма свидетельств
+        total_c = sum(e.confidence for e in evidence)
+        level = (
+            sum(e.confidence * e.value for e in evidence) / total_c
+            if total_c > 0 else float(declared_level)
+        )
         #3 Противоречия
         contradictions = _detect_contradictions(skill, declared_level, evidence)
 
@@ -193,13 +211,13 @@ def evaluate_employee(
         assessments.append(CompetencyAssessment(
             employee_id=employee.id,
             competency=skill,
-            level=float(declared_level),
+            level=level,
             status=status,
             evidence=evidence,
             contradictions=contradictions,
             limitations=limitations,
             follow_up=_suggest_follow_up(skill, status, evidence),
-            rationale=_build_rationale(skill, declared_level, evidence, status),
+            rationale=_build_rationale(skill, level, evidence, status),
         ))
 
     return EmployeeEvaluation(
