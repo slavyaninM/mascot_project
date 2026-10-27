@@ -1,0 +1,30 @@
+[
+  {
+    "id": "proj_001",
+    "name": "Веб-сервис анализа задач",
+    "description": "Разработка веб-сервиса: API на FastAPI, SQL-база, тестирование и аналитика требований.",
+    "team_size": 3,
+    "requirements": [
+      {
+        "skill": "python",
+        "min_level": 0.6,
+        "weight": 2.0
+      },
+      {
+        "skill": "sql",
+        "min_level": 0.6,
+        "weight": 1.5
+      },
+      {
+        "skill": "testing",
+        "min_level": 0.6,
+        "weight": 1.5
+      },
+      {
+        "skill": "requirements",
+        "min_level": 0.6,
+        "weight": 1.0
+      }
+    ]
+  }
+]

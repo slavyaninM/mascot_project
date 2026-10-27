@@ -1,0 +1,50 @@
+[
+  {
+    "id": "emp_001",
+    "name": "Иван Петров",
+    "role": "Backend-разработчик",
+    "skills": {
+      "python": 0.8,
+      "sql": 0.6,
+      "fastapi": 0.6,
+      "git": 0.8
+    },
+    "available": true
+  },
+  {
+    "id": "emp_002",
+    "name": "Мария Смирнова",
+    "role": "QA-инженер",
+    "skills": {
+      "python": 0.4,
+      "sql": 0.6,
+      "testing": 0.2,
+      "git": 0.6
+    },
+    "available": true
+  },
+  {
+    "id": "emp_003",
+    "name": "Алексей Козлов",
+    "role": "Frontend-разработчик",
+    "skills": {
+      "javascript": 0.8,
+      "react": 0.6,
+      "css": 0.8,
+      "git": 0.8
+    },
+    "available": false
+  },
+  {
+    "id": "emp_004",
+    "name": "Ольга Иванова",
+    "role": "Аналитик",
+    "skills": {
+      "sql": 0.8,
+      "analytics": 0.8,
+      "requirements": 1.0,
+      "communication": 0.8
+    },
+    "available": true
+  }
+]
