@@ -2,6 +2,8 @@ import os
 import httpx
 import logging
 import uuid
+from pydantic import BaseModel
+import config.settings # noqa
 
 logger = logging.getLogger("mascot.llm_client")
 
@@ -14,11 +16,14 @@ class LLMClient:
         self.api_url = os.getenv("GIGACHAT_API_URL", "https://sberbank.ru")
         self.api_key = os.getenv("GIGACHAT_API_KEY", "your_api_key_here")
         self.model_name = os.getenv("GIGACHAT_MODEL_NAME", "GigaChat:latest")
-
-    async def generate(self, prompt: str, system_prompt: str = "Ты полезный ИИ-помощник.") -> str:
-
-        logger.debug(f"Отправка запроса в GigaChat ({self.model_name})...")
-
+    # дальше код ожидает что generate вернет CompetencyAnalysis с .model_dump(), но возвращает str
+    async def generate(
+        self,
+        prompt: str,
+        system_prompt: str = "Ты полезный ИИ-помощник.",
+        response_model: type[BaseModel] | None = None,
+    ) -> str | BaseModel:
+            
         # Пока заглушка, поменять .env
         if self.api_key == "your_api_key_here":
             logger.warning("Используется ИИ-заглушка")
@@ -41,8 +46,7 @@ class LLMClient:
         }
 
         try:
-            async with httpx.AsyncClient(timeout=30.0,
-                                         verify=False) as client:  # verify=False часто нужен для сертификатов Сбера
+            async with httpx.AsyncClient(timeout=30.0, verify=False) as client:  # verify=False часто нужен для сертификатов Сбера
                 response = await client.post(self.api_url, headers=headers, json=data)
                 response.raise_for_status()
                 result = response.json()
@@ -50,3 +54,12 @@ class LLMClient:
         except Exception as e:
             logger.error(f"Ошибка при обращении к GigaChat API: {e}")
             raise e
+
+        # после получения ответа:                               может быть плохая идея, удалить если не надо
+        content = result["choices"][0]["message"]["content"]
+
+        if response_model is not None:
+            # Structured Output: ожидаем JSON в ответе
+            return response_model.model_validate_json(content)
+
+        return content

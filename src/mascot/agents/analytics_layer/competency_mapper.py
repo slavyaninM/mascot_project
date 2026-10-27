@@ -1,3 +1,4 @@
+from abc import abstractmethod
 import os
 import uuid
 import logging
@@ -50,6 +51,7 @@ class CompetencyMapperAgent(BaseAgent):
         with open(self.prompt_path, "r", encoding="utf-8") as f:
             return f.read()
 
+    @abstractmethod
     async def process(self, message: AgentMessage) -> AgentMessage | None:
         # Агент слушает запросы на маппинг компетенций
         if message.message_type != "MAP_COMPETENCIES":
@@ -77,8 +79,8 @@ class CompetencyMapperAgent(BaseAgent):
 
             # 4. Асинхронно вызываем генерацию с поддержкой Structured Outputs
             structured_analysis: CompetencyAnalysis = await self.client.generate(
+                prompt=user_message,                            #elevator.py не ломается, copmetency_mapper.py получает аналитику и .model_dump()
                 system_prompt=system_prompt,
-                user_message=user_message,
                 response_model=CompetencyAnalysis
             )
 

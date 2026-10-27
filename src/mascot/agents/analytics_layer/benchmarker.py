@@ -1,16 +1,19 @@
 import uuid
-import logging
 import pandas as pd
 from typing import List, Dict, Any
 from sqlalchemy.orm import Session
 from sqlalchemy import text
+import logging
+
+logger = logging.getLogger("mascot.benchmarker")
 
 from src.mascot.core.base_agent import BaseAgent
 from src.mascot.core.message import AgentMessage
 
 
 class BenchmarkerAgent(BaseAgent):
-    def __init__(self, min_cohort_size: int = 3):
+    def __init__(self, name: str, agent_type: str, message_bus, min_cohort_size: int = 3):
+        super().__init__(name, agent_type, message_bus)
         """
         Инициализация бенчмаркера.
         min_cohort_size: Минимальное количество людей в когорте для внутреннего сравнения.
