@@ -6,6 +6,11 @@ from src.mascot.agents.analytics_layer.skill_evaluator import evaluate_employee
 from src.mascot.agents.decision_layer.optimizer import build_team
 from src.mascot.storage.models import Employee, Project, TeamRecommendation
 
+def _compute_evaluations(employees, evaluations, profiles):
+    if evaluations is not None:
+        return evaluations
+    profile_by_id = {p.employee_id: p for p in (profiles or [])}
+    return [evaluate_employee(emp, profile_by_id.get(emp.id)) for emp in employees]
 
 def match_team(
     employees: list[Employee],

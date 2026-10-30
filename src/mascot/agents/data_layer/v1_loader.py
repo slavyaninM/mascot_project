@@ -17,6 +17,8 @@ from src.mascot.storage.models import (
 
 DATA_DIR = Path(__file__).resolve().parents[4] / "data" / "raw"
 
+GRADE_LEVEL = {"Junior": 0.3, "Middle": 0.5, "Senior": 0.75, "Lead": 0.85}
+DEFAULT_SKILL_LEVEL = 0.5
 # Стек → нормализованное имя навыка
 STACK_ALIASES: dict[str, str] = {
     "python": "python", "django": "django", "fastapi": "fastapi",
@@ -57,7 +59,10 @@ def _normalize(name: str, raw: float) -> tuple[float, int, float]:
     if name == "customer_satisfaction_score_csat":
         return raw / 5, 1, 0.4
     if name.startswith("360_"):
-        return raw / 5, 10, 0.8  # прокси: 10 респондентов
+         # v1 не передаёт число респондентов 360 - sample_size=1 (один
+        # агрегированный отзыв). confidence ниже порога 0.5, чтобы soft-skill
+        # не получал SUFFICIENT «на халяву».
+        return raw / 5, 1, 0.3 
     return min(1.0, max(0.0, raw)), 1, 0.5
 
 
@@ -105,13 +110,17 @@ def _extract_metrics(raw: dict) -> list[Metric]:
 
 
 def _extract_skills(raw: dict) -> dict[str, float]:
+    # Грейд → базовый уровень навыка (эвристика; заменить реальными оценками)
+    hr = raw.get("hr_system", {})
+    base_level = GRADE_LEVEL.get(hr.get("grade", ""), DEFAULT_SKILL_LEVEL)
+
     """Заявленные навыки (0-1): primary_stack + 360 + факт активности."""
     skills: dict[str, float] = {}
 
     for tech in raw.get("git_analytics", {}).get("primary_stack", []):
         skill = STACK_ALIASES.get(tech.lower().strip())
         if skill:
-            skills[skill] = 0.6  # работает с технологией, уровень не подтверждён
+            skills[skill] = base_level  # работает с технологией, уровень не подтверждён
 
     review = raw.get("soft_skills_and_feedback", {}) \
                  .get("performance_review_360", {})
@@ -129,6 +138,10 @@ def _extract_skills(raw: dict) -> dict[str, float]:
         skills.setdefault("lms", 0.6)
     if raw.get("crm_service_desk", {}).get("resolved_incidents", 0) > 0:
         skills.setdefault("crm", 0.6)
+    # навык testing для QA-позиций(в primary его не бывает)
+    position = hr.get("position", "").lower()
+    if "тестиров" in position or "qa" in position:
+        skills.setdefault("testing", base_level)
 
     return skills
 
@@ -169,6 +182,7 @@ ROLE_KEYWORDS: dict[str, list[str]] = {
     "qa automation": ["testing", "pytest", "selenium", "python"],
     "qa manual": ["testing", "sql"],
     "fullstack": ["python", "react", "sql"],
+    "qa": ["testing", "sql"],  
     "mobile developer": ["flutter", "dart"],
 }
 
@@ -184,6 +198,8 @@ STACK_KEYWORDS: dict[str, list[str]] = {
     "kubernetes": ["kubernetes", "k8s"],
     "csharp": ["c#", "unity"],
     "flutter": ["flutter", "dart"],
+    "css": ["css", "tailwind"],  
+    "vue": ["vue", "nuxt"],    
 }
 
 
@@ -192,6 +208,13 @@ def _skills_from_text(text: str, mapping: dict[str, list[str]]) -> set[str]:
     return {skill for skill, kws in mapping.items()
             if any(kw in lower for kw in kws)}
 
+def _skills_from_roles(roles_text: str, role_map: dict[str, list[str]]) -> set[str]:
+    lower = roles_text.lower()
+    skills: set[str] = set()
+    for role_key, role_skills in role_map.items():
+        if role_key in lower:
+            skills.update(role_skills)
+    return skills
 
 def _interpret_project(raw: dict) -> Project:
     """Эвристика: свободный текст → ProjectRequirement. LLM заменит позже."""
@@ -205,16 +228,26 @@ def _interpret_project(raw: dict) -> Project:
     tech_parts = [str(v) for v in reqs.get("technical_specification", {}).values()]
     tech_text = " ".join(tech_parts)
 
-    role_skills = _skills_from_text(roles_text, ROLE_KEYWORDS)
-    stack_skills = _skills_from_text(tech_text, STACK_KEYWORDS)
+    role_skills = _skills_from_roles(roles_text, ROLE_KEYWORDS)
+    # Технологии ищем и в техспеке, и в тексте ролей:
+    # в v1 упоминание «Backend Developer (Senior) со знанием Go/Node.js»
+    # находится именно в required_roles, а не в technical_specification.
+    stack_skills = _skills_from_text(tech_text, STACK_KEYWORDS) | _skills_from_text(roles_text, STACK_KEYWORDS)
 
     requirements: list[ProjectRequirement] = []
     seen: set[str] = set()
+    
+    min_level = 0.5
+    for grade_key, level in GRADE_LEVEL.items():
+        if grade_key.lower() in roles_text.lower():
+            min_level = max(min_level, level)
+            break
+    
     for skill in sorted(role_skills):
-        requirements.append(ProjectRequirement(skill=skill, min_level=0.6, weight=2.0))
+        requirements.append(ProjectRequirement(skill=skill, min_level=min_level, weight=2.0))
         seen.add(skill)
     for skill in sorted(stack_skills - seen):
-        requirements.append(ProjectRequirement(skill=skill, min_level=0.6, weight=1.0))
+        requirements.append(ProjectRequirement(skill=skill, min_level=min_level, weight=1.0))
 
     return Project(
         id=raw.get("project_id", ""),

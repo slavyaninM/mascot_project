@@ -184,12 +184,17 @@ def evaluate_employee(
                         confidence=metric.confidence,
                     ))
 
-        # L_k = Σ(c_i · l_i) / Σ(c_i) — взвешенная сумма свидетельств
-        total_c = sum(e.confidence for e in evidence)
-        level = (
-            sum(e.confidence * e.value for e in evidence) / total_c
-            if total_c > 0 else float(declared_level)
-        )
+        # L_k = Σ(c_i · l_i) / Σ(c_i) — взвешенная сумма свидетельств только по лвл-метрикам (0..1), остальные игнорируем
+        #счетчики (commits_count, pr_opened, tasks_closed, bugs_count и т.п.) в противоречии не учавствуют.
+        level_evidence = [e for e in evidence if _is_level_comparable(e)]
+        if level_evidence:
+            total_c = sum(e.confidence for e in evidence)
+            level = (sum(e.confidence * e.value for e in evidence) / total_c)
+            
+        else:
+            level = float(declared_level)
+        level = min(max(level, MIN_LEVEL), MAX_LEVEL)  # ограничиваем 0..1
+        
         #3 Противоречия
         contradictions = _detect_contradictions(skill, declared_level, evidence)
 

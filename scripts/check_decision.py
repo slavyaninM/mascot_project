@@ -1,12 +1,13 @@
 from src.mascot.agents.analytics_layer.skill_evaluator import evaluate_employee
-from src.mascot.agents.data_layer.integrator import load_employees, load_projects
+from src.mascot.agents.data_layer.v1_loader import load_employees_v1, load_projects_v1
 from src.mascot.pipelines.distribute_team import recommend_team
 
 
-def main():
-    employees = load_employees()
-    projects = load_projects()
-    evaluations = [evaluate_employee(e) for e in employees]
+def main() -> None:
+    employees, profiles = load_employees_v1()
+    projects = load_projects_v1()
+    profiles_by_id = {p.employee_id: p for p in profiles}
+    evaluations = [evaluate_employee(e, profiles_by_id.get(e.id)) for e in employees]
 
     for project in projects:
         report = recommend_team(employees, project, evaluations)
@@ -29,10 +30,11 @@ def main():
             for f in report.follow_ups:
                 print(f"  • {f.employee_id or '—'} / {f.competency or '—'}: {f.reason}")
 
-        if report.infeasibility_reasons:
-            print("\nПричины невозможности:")
-            for reason in report.infeasibility_reasons:
-                print(f"  — {reason}")
+        # if report.infeasibility_reasons:
+        #     print("\nПричины невозможности:")
+        #     for reason in report.infeasibility_reasons:
+        #         print(f"  — {reason}")
+
 
         print(f"\nОбъяснение: {report.explanation}")
 
