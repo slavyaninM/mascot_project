@@ -28,6 +28,13 @@ PENALTY_INSUFFICIENT = 0.1
 PENALTY_CONTRADICTORY = 0.2
 TOP_ALTERNATIVES = 3
 
+# Коэффициенты формулы Score из статьи:
+#   Score = α·Cover + β·avg(Match/100) − γ·Cost
+# Cost=0 (в данных v1 нет окладов/ставок), γ=0.
+SCORE_ALPHA = 0.6   # вес Cover(T)
+SCORE_BETA = 0.4    # вес avg Match(e, r)
+SCORE_GAMMA = 0.0   # вес Cost(T) - нет данных
+
 
 # =============================================================================
 # Вспомогательные функции
@@ -50,7 +57,7 @@ def _get_effective_level(
     employees_by_id: dict[str, Employee],
 ) -> tuple[float | None, ReliabilityLevel, list[str]]:
     """
-    Возвращает (уровень, надёжность, заметки) для пары (сотрудник, навык).
+    Возвращает (уровень, надежность, заметки) для пары (сотрудник, навык).
 
     Приоритет:
     1. Оценка из аналитического слоя (assessment).
@@ -80,6 +87,34 @@ def _get_effective_level(
 
     return None, ReliabilityLevel.UNKNOWN, notes
 
+def _match_employee(
+    employee_id: str,
+    project: Project,
+    evaluations_by_id: dict[str, EmployeeEvaluation],
+    employees_by_id: dict[str, Employee],
+) -> float:
+   
+    # Match(e, r) - соответствие сотрудника требованиям проекта (0..100).
+
+    # Формула по статье:
+    #     Match = 100 · (1 − Σ w_k·G_k / Σ w_k),
+    #     G_k = max(0, R_k − L_k)
+
+    # Где R_k - требуемый уровень (min_level), L_k - уровень сотрудника,
+    # w_k - вес требования. Навыка нет → L_k = 0 (максимальный разрыв).
+
+    # Возвращает 0..100. Для идеального соответствия = 100.
+   
+    total_weight = sum(r.weight for r in project.requirements) or 1.0
+    total_gap = 0.0
+    for req in project.requirements:
+        level, _, _ = _get_effective_level(
+            employee_id, req.skill, evaluations_by_id, employees_by_id
+        )
+        l_k = level if level is not None else 0.0
+        g_k = max(0.0, req.min_level - l_k)
+        total_gap += req.weight * g_k
+    return 100.0 * (1.0 - total_gap / total_weight)
 
 def _evaluate_requirement_for_team(
     team_ids: list[str],
@@ -150,41 +185,60 @@ def _score_team(
     project: Project,
     evaluations_by_id: dict[str, EmployeeEvaluation],
     employees_by_id: dict[str, Employee],
-) -> tuple[float, float, float, float, list[RequirementCoverage]]:
-    """
-    Возвращает (score, weighted_coverage, weighted_deficit, penalty, coverages).
-    Формулы — см. документацию выше.
-    """
+) -> tuple[float, float, float, float, dict[str, float], list[RequirementCoverage]]:
+ 
+#  Возвращает (score, weighted_coverage, weighted_deficit, penalty,
+#     match_scores, coverages).
+
+#     Score — по статье:
+#         Score = α·Cover + β·(1/|T|)·Σ Match(e, r_e) − γ·Cost
+#     Cover(T) — бинарное взвешенное покрытие (I(max L ≥ R)).
+#     Match(e, r) — соответствие сотрудника (0..100).
+#     Cost(T) = 0 (нет данных о ставках в v1), γ = 0.
+
+#     weighted_coverage и weighted_deficit — диагностика (пропорциональное
+#     покрытие и сумма дефицитов), в Score не входят.
+ 
     coverages = [
         _evaluate_requirement_for_team(team_ids, req, evaluations_by_id, employees_by_id)
         for req in project.requirements
     ]
 
     total_weight = sum(r.weight for r in project.requirements) or 1.0
+
+    # Cover(T) - бинарное: требование дает вес, только если COVERED
+    cover = sum(
+        r.weight for r, c in zip(project.requirements, coverages)
+        if c.status == RequirementStatus.COVERED
+    ) / total_weight
+
+    # Диагностика: пропорциональное покрытие и суммарный дефицит
     weighted_coverage = sum(
         r.weight * c.coverage_ratio
         for r, c in zip(project.requirements, coverages)
     ) / total_weight
     weighted_deficit = sum(r.weight * c.deficit for r, c in zip(project.requirements, coverages))
 
-    # штрафы
+    # Match(e, r) для каждого участника
+    match_scores = {
+        emp_id: _match_employee(emp_id, project, evaluations_by_id, employees_by_id)
+        for emp_id in team_ids
+    }
+    avg_match = sum(match_scores.values()) / len(match_scores) if match_scores else 0.0
+
+    # Penalty - только для диагностики в отчете, в Score не входит
     n_unknown = sum(1 for c in coverages if c.status == RequirementStatus.UNKNOWN)
-    n_insufficient = sum(
-        1 for c in coverages if c.covered_by_reliability == ReliabilityLevel.MEDIUM
-    )
-    n_contradictory = sum(
-        1 for c in coverages
-        if c.covered_by_reliability == ReliabilityLevel.LOW and c.status == RequirementStatus.COVERED
-    )
     n_reqs = len(project.requirements) or 1
-    penalty = (
-        PENALTY_UNKNOWN * n_unknown / n_reqs
-        + PENALTY_INSUFFICIENT * n_insufficient / n_reqs
-        + PENALTY_CONTRADICTORY * n_contradictory / n_reqs
+    penalty = PENALTY_UNKNOWN * n_unknown / n_reqs
+
+    # Score по статье
+    score = (
+        SCORE_ALPHA * cover
+        + SCORE_BETA * (avg_match / 100.0)
+        - SCORE_GAMMA * 0.0  # Cost(T) = 0
     )
 
-    score = weighted_coverage - penalty
-    return score, weighted_coverage, weighted_deficit, penalty, coverages
+    return score, weighted_coverage, weighted_deficit, penalty, match_scores, coverages
 
 
 # =============================================================================
@@ -196,11 +250,11 @@ def build_team(
     evaluations: list[EmployeeEvaluation],
     employees: list[Employee],
 ) -> TeamDecisionReport:
-    """Собирает оптимальную команду и полный отчёт."""
+    """Собирает оптимальную команду и полный отчет."""
     employees_by_id = {e.id: e for e in employees}
     evaluations_by_id = {e.employee_id: e for e in evaluations}
 
-    #1 Жёсткие ограничения: только доступные
+    #1 Жесткие ограничения: только доступные
     available = [e for e in employees if e.available]
     available_ids = [e.id for e in available]
 
@@ -245,20 +299,24 @@ def build_team(
     else:
         logger.info(
             f"C({len(available_ids)}, {target_size}) = {total_combos} > "
-            f"{MAX_BRUTE_FORCE_COMBOS} — используем жадный алгоритм"
+            f"{MAX_BRUTE_FORCE_COMBOS} - используем жадный алгоритм"
         )
         candidates = [_greedy_team(available_ids, target_size, project, evaluations_by_id, employees_by_id)]
 
     #5 Оценка всех вариантов
     scored: list[tuple[float, tuple[str, ...], list[RequirementCoverage]]] = []
     for team_ids in candidates:
-        score, _, _, _, coverages = _score_team(
+        score, _, _, _, _, coverages = _score_team(
             list(team_ids), project, evaluations_by_id, employees_by_id
         )
         scored.append((score, team_ids, coverages))
 
     scored.sort(key=lambda x: x[0], reverse=True)
     best_score, best_team, best_coverages = scored[0]
+
+    _, _, _, _, best_match_scores, _ = _score_team(
+        list(best_team), project, evaluations_by_id, employees_by_id
+    )
 
     #6 Альтернативы (топ 3 без победителя)
     alternatives = []
@@ -287,7 +345,7 @@ def build_team(
     covered = [c.skill for c in best_coverages if c.status == RequirementStatus.COVERED]
     missing = [
         c.skill for c in best_coverages
-        if c.status in (RequirementStatus.UNCOVERED, RequirementStatus.PARTIAL)
+        if c.status in (RequirementStatus.UNCOVERED, RequirementStatus.PARTIAL, RequirementStatus.UNKNOWN)
     ]
     covered_ratio_simple = len(covered) / len(best_coverages) if best_coverages else 0.0
 
@@ -322,7 +380,7 @@ def build_team(
                 type="low_confidence",
                 severity="warning",
                 description=(
-                    f"Оценка {c.skill} у {c.covered_by_name} имеет низкую надёжность"
+                    f"Оценка {c.skill} у {c.covered_by_name} имеет низкую надежность"
                 ),
                 related_skills=[c.skill],
                 related_employee_ids=[c.covered_by_employee_id] if c.covered_by_employee_id else [],
@@ -335,7 +393,7 @@ def build_team(
             follow_ups.append(FollowUp(
                 employee_id=c.covered_by_employee_id,
                 competency=c.skill,
-                reason="Низкая надёжность оценки, требуется доп. проверка",
+                reason="Низкая надежность оценки, требуется доп. проверка",
             ))
         if c.status == RequirementStatus.UNKNOWN:
             follow_ups.append(FollowUp(
@@ -361,6 +419,7 @@ def build_team(
         weighted_coverage=weighted_coverage,
         weighted_deficit=weighted_deficit,
         coverage_ratio_simple=covered_ratio_simple,
+        match_scores=best_match_scores,
         covered_requirements=covered,
         missing_requirements=missing,
         risks=risks,
@@ -380,7 +439,7 @@ def _greedy_team(
     evaluations_by_id: dict[str, EmployeeEvaluation],
     employees_by_id: dict[str, Employee],
 ) -> tuple[str, ...]:
-    """Жадный выбор команды — используется при большом пространстве вариантов."""
+    """Жадный выбор команды - используется при большом пространстве вариантов."""
     selected: list[str] = []
     remaining = list(available_ids)
     for _ in range(target_size):

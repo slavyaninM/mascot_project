@@ -344,3 +344,123 @@ class TestInternalFunctions:
 
         assert cov.achieved_level == 0.6
         assert cov.covered_by_reliability == ReliabilityLevel.MEDIUM
+
+# =============================================================================
+# Формула статьи: Cover(T), Match(e, r), Score
+# =============================================================================
+
+class TestArticleFormula:
+    def test_match_full_100(self):
+        """Сотрудник полностью соответствует требованиям → Match = 100."""
+        emp = make_employee(id="e1", skills={"python": 0.8, "sql": 0.8})
+        project = make_project(
+            team_size=1,
+            requirements=[
+                make_requirement("python", 0.6),
+                make_requirement("sql", 0.6),
+            ],
+        )
+        evaluations = [evaluate_employee(emp)]
+        report = build_team(project, evaluations, [emp])
+
+        assert report.match_scores["e1"] == pytest.approx(100.0)
+
+    def test_match_partial(self):
+        """Уровень ниже min_level → Match < 100, но > 0."""
+        emp = make_employee(id="e1", skills={"python": 0.3})
+        project = make_project(
+            team_size=1, requirements=[make_requirement("python", 0.6)]
+        )
+        evaluations = [evaluate_employee(emp)]
+        report = build_team(project, evaluations, [emp])
+
+        # G = 0.6 - 0.3 = 0.3, w=1.0 → Match = 100·(1 - 0.3/1.0) = 70
+        assert report.match_scores["e1"] == pytest.approx(70.0)
+
+    def test_match_zero_gap_but_skill_missing(self):
+        """Сотрудник без требуемого навыка → L=0, G=min_level."""
+        emp = make_employee(id="e1", skills={"cobol": 0.9})  # нет python
+        project = make_project(
+            team_size=1, requirements=[make_requirement("python", 0.6)]
+        )
+        evaluations = [evaluate_employee(emp)]
+        report = build_team(project, evaluations, [emp])
+
+        # G = 0.6, Match = 100·(1 - 0.6) = 40
+        assert report.match_scores["e1"] == pytest.approx(40.0)
+
+    def test_match_weighted_by_requirement_weight(self):
+        """Match взвешивает разрывы по весу требований."""
+        emp = make_employee(id="e1", skills={"python": 0.8})  # sql нет
+        project = make_project(
+            team_size=1,
+            requirements=[
+                make_requirement("python", 0.6, weight=2.0),  # покрыто
+                make_requirement("sql", 0.6, weight=1.0),     # не покрыто
+            ],
+        )
+        evaluations = [evaluate_employee(emp)]
+        report = build_team(project, evaluations, [emp])
+
+        # G_python = 0 (w=2), G_sql = 0.6 (w=1)
+        # Match = 100·(1 - (0.6·1)/(2+1)) = 100·(1 - 0.2) = 80
+        assert report.match_scores["e1"] == pytest.approx(80.0)
+
+    def test_cover_binary_not_proportional(self):
+        """Cover(T) в score бинарный: PARTIAL не даёт вклада."""
+        from src.mascot.agents.decision_layer.optimizer import (
+            _score_team, SCORE_ALPHA, SCORE_BETA,
+        )
+
+        emp = make_employee(id="e1", skills={"python": 0.4})  # PARTIAL при min=0.6
+        project = make_project(
+            team_size=1, requirements=[make_requirement("python", 0.6)]
+        )
+        evaluations = [evaluate_employee(emp)]
+
+        score, wcov, wdef, pen, match_scores, covs = _score_team(
+            ["e1"], project, {"e1": evaluations[0]}, {"e1": emp}
+        )
+
+        # Cover = 0 (не COVERED), Match = 70 (G=0.2 → 100·(1-0.2/0.6·0.6)... )
+        # Пересчитаем: min_level=0.6, L=0.4 → G=0.2, w=1 → Match=100·(1-0.2)=80
+        # Score = 0.6·0 + 0.4·(80/100) = 0.32
+        assert wcov > 0.0   # пропорциональное покрытие > 0 (0.4/0.6 ≈ 0.67)
+        assert score == pytest.approx(SCORE_BETA * 0.80)
+
+    def test_full_team_score_is_one(self):
+        """Идеальная команда: Cover=1, все Match=100 → Score=α+β."""
+        from src.mascot.agents.decision_layer.optimizer import (
+            _score_team, SCORE_ALPHA, SCORE_BETA,
+        )
+
+        emp = make_employee(id="e1", skills={"python": 0.9})
+        project = make_project(
+            team_size=1, requirements=[make_requirement("python", 0.6)]
+        )
+        evaluations = [evaluate_employee(emp)]
+
+        score, *_ = _score_team(
+            ["e1"], project, {"e1": evaluations[0]}, {"e1": emp}
+        )
+        assert score == pytest.approx(SCORE_ALPHA + SCORE_BETA)
+
+    def test_match_scores_contains_all_team_members(self):
+        """match_scores содержит запись для каждого выбранного сотрудника."""
+        employees = [
+            make_employee(id="e1", skills={"python": 0.8}),
+            make_employee(id="e2", skills={"sql": 0.8}),
+        ]
+        project = make_project(
+            team_size=2,
+            requirements=[
+                make_requirement("python", 0.6),
+                make_requirement("sql", 0.6),
+            ],
+        )
+        evaluations = [evaluate_employee(e) for e in employees]
+        report = build_team(project, evaluations, employees)
+
+        assert set(report.match_scores.keys()) == set(report.selected_employee_ids)
+        for score in report.match_scores.values():
+            assert 0.0 <= score <= 100.0

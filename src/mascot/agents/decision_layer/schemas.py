@@ -79,6 +79,8 @@ class TeamDecisionReport(BaseModel):
 
     requirement_coverages: list[RequirementCoverage]
 
+     # Match(e, r) для каждого участника команды — по формуле статьи
+    match_scores: dict[str,float] = Field(default_factory=dict)  # employee_id -> score
     # Сводные метрики
     
     weighted_coverage: float = Field(ge=0.0, le=1.0)
