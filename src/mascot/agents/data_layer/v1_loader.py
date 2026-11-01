@@ -4,6 +4,7 @@
 преобразуются во внутренние модели: Employee, EmployeeProfile, Metric, Project.
 """
 import json
+import re
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -175,49 +176,111 @@ def load_employees_v1(path: Path | None = None) -> tuple[list[Employee], list[Em
 
 # --- Проекты ---
 
-ROLE_KEYWORDS: dict[str, list[str]] = {
-    "backend developer": ["python", "java", "go", "sql", "docker"],
-    "frontend": ["react", "typescript", "css"],
-    "unity developer": ["unity", "csharp"],
-    "qa automation": ["testing", "pytest", "selenium", "python"],
-    "qa manual": ["testing", "sql"],
-    "fullstack": ["python", "react", "sql"],
-    "qa": ["testing", "sql"],  
-    "mobile developer": ["flutter", "dart"],
+# ---------------------------------------------------------------------------
+# Паттерны поиска технологий в тексте (word boundary, не подстрока).
+# Нормализация составных имён (C#, Node.js, Vue.js) выполняется
+# в _normalize_for_skills ДО применения паттернов.
+# ---------------------------------------------------------------------------
+_SKILL_PATTERNS: dict[str, str] = {
+    # Языки
+    "python":     r"\bpython\b",
+    "java":       r"\bjava\b",                       # \b не сработает в javascript
+    "javascript": r"\bjavascript\b",
+    "typescript": r"\btypescript\b",
+    "rust":       r"\brust\b",
+    "go":         r"\bgo\b|\bgolang\b",              # \b не сработает в django
+    "dart":       r"\bdart\b",
+    # Фреймворки / платформы
+    "django":     r"\bdjango\b",
+    "fastapi":    r"\bfastapi\b",
+    "spring":     r"\bspring\b",
+    "nodejs":     r"\bnodejs\b|\bnode\b",
+    "react":      r"\breact\b",
+    "vue":        r"\bvue\b|\bnuxt\b",
+    "angular":    r"\bangular\b",
+    "unity":      r"\bunity\b",
+    "csharp":     r"\bcsharp\b",
+    "flutter":    r"\bflutter\b",
+    # Данные / инфраструктура
+    "sql":        r"\bpostgres(?:ql)?\b|\bsql\b|\bmysql\b|\bsqlite\b|\bpostgis\b",
+    "docker":     r"\bdocker\b",
+    "kubernetes": r"\bkubernetes\b|\bk8s\b",
+    "kafka":      r"\bkafka\b",
+    "redis":      r"\bredis\b",
 }
 
-STACK_KEYWORDS: dict[str, list[str]] = {
-    "python": ["python", "fastapi", "django"],
-    "java": ["java", "spring"],
-    "go": ["go", "golang"],
-    "node": ["node", "node.js"],
-    "react": ["react"],
-    "typescript": ["typescript"],
-    "sql": ["postgresql", "sql", "postgres"],
-    "docker": ["docker"],
-    "kubernetes": ["kubernetes", "k8s"],
-    "csharp": ["c#", "unity"],
-    "flutter": ["flutter", "dart"],
-    "css": ["css", "tailwind"],  
-    "vue": ["vue", "nuxt"],    
-}
+# Семантические маркеры ролей → навык (не технологии, а роль)
+_QA_ROLE_MARKERS = ("qa", "тестиров")
+_MOBILE_ROLE_MARKERS = ("mobile", "мобильн")
 
 
-def _skills_from_text(text: str, mapping: dict[str, list[str]]) -> set[str]:
-    lower = text.lower()
-    return {skill for skill, kws in mapping.items()
-            if any(kw in lower for kw in kws)}
+def _normalize_for_skills(text: str) -> str:
+    """
+    Приводит текст к виду, где \\b работает для составных названий.
+    C# → csharp, Node.js → nodejs, Vue.js → vue.
+    """
+    text = text.lower()
+    for old, new in (
+        ("c#", " csharp "),
+        ("node.js", " nodejs "),
+        ("vue.js", " vue "),
+        ("nuxt.js", " nuxt "),
+        (".net", " dotnet "),
+    ):
+        text = text.replace(old, new)
+    return text
 
-def _skills_from_roles(roles_text: str, role_map: dict[str, list[str]]) -> set[str]:
-    lower = roles_text.lower()
-    skills: set[str] = set()
-    for role_key, role_skills in role_map.items():
-        if role_key in lower:
-            skills.update(role_skills)
-    return skills
+
+def _extract_skills_from_text(text: str) -> set[str]:
+    """Все технологии из текста по word-boundary паттернам."""
+    normalized = _normalize_for_skills(text)
+    found: set[str] = set()
+    for skill, pattern in _SKILL_PATTERNS.items():
+        if re.search(pattern, normalized):
+            found.add(skill)
+    return found
+
+
+def _flatten_to_text(obj) -> str:
+    """Рекурсивно собирает все строки из dict / list / str."""
+    if isinstance(obj, str):
+        return obj
+    if isinstance(obj, dict):
+        return " ".join(_flatten_to_text(v) for v in obj.values())
+    if isinstance(obj, list):
+        return " ".join(_flatten_to_text(v) for v in obj)
+    return ""
+
+
+def _is_qa_role(role: str) -> bool:
+    lower = role.lower()
+    return any(marker in lower for marker in _QA_ROLE_MARKERS)
+
+
+def _role_min_level(role: str) -> float:
+    """Минимальный уровень по грейд-подсказке в тексте роли."""
+    role_lower = role.lower()
+    levels = [
+        level for grade_key, level in GRADE_LEVEL.items()
+        if grade_key.lower() in role_lower
+    ]
+    return max(levels) if levels else DEFAULT_SKILL_LEVEL
 
 def _interpret_project(raw: dict) -> Project:
-    """Эвристика: свободный текст → ProjectRequirement. LLM заменит позже."""
+    """
+    Извлекает требования проекта из v1-структуры.
+
+    Правила (по задаче «разделить источники»):
+    1. required_roles — конкретные должности; из них берутся только ЯВНО
+       упомянутые технологии (Go, Java, Unity, Flutter, React ...).
+       Автоматическая подстановка «backend → python, java, go, sql, docker»
+       отключена: иначе Go появлялся в проектах, где его нет.
+    2. technical_specification + frontend_and_ui + quality_assurance_scope —
+       все скалярные строки customer_requirements. Оттуда берутся
+       все найденные технологии.
+    3. QA-роль → навык testing (семантика, не технология).
+    4. Веса: явно в роли → 2.0, только в спецификации → 1.0.
+    """
     meta = raw.get("meta", {})
     reqs = raw.get("customer_requirements", {})
     staffing = raw.get("hr_staffing_implications", {}) \
@@ -225,29 +288,34 @@ def _interpret_project(raw: dict) -> Project:
     roles = staffing.get("required_roles", []) or []
     roles_text = " ".join(roles)
 
-    tech_parts = [str(v) for v in reqs.get("technical_specification", {}).values()]
-    tech_text = " ".join(tech_parts)
-
-    role_skills = _skills_from_roles(roles_text, ROLE_KEYWORDS)
-    # Технологии ищем и в техспеке, и в тексте ролей:
-    # в v1 упоминание «Backend Developer (Senior) со знанием Go/Node.js»
-    # находится именно в required_roles, а не в technical_specification.
-    stack_skills = _skills_from_text(tech_text, STACK_KEYWORDS) | _skills_from_text(roles_text, STACK_KEYWORDS)
-
-    requirements: list[ProjectRequirement] = []
-    seen: set[str] = set()
+    # 1. Технологии из спецификации (все поля customer_requirements)
+    spec_skills = _extract_skills_from_text(_flatten_to_text(reqs))
     
-    min_level = 0.5
-    for grade_key, level in GRADE_LEVEL.items():
-        if grade_key.lower() in roles_text.lower():
-            min_level = max(min_level, level)
-            break
-    
-    for skill in sorted(role_skills):
-        requirements.append(ProjectRequirement(skill=skill, min_level=min_level, weight=2.0))
-        seen.add(skill)
-    for skill in sorted(stack_skills - seen):
-        requirements.append(ProjectRequirement(skill=skill, min_level=min_level, weight=1.0))
+    # 2. Технологии, явно упомянутые в тексте ролей
+    role_skills = _extract_skills_from_text(roles_text)
+
+    # 3. QA-роль → testing
+    if any(_is_qa_role(r) for r in roles):
+        role_skills.add("testing")
+
+    # 4. Итоговый пул навыков
+    all_skills = spec_skills | role_skills
+
+    # 5. Минимальный уровень — max по грейд-подсказкам всех ролей
+    min_level = max(
+        (_role_min_level(r) for r in roles),
+        default=DEFAULT_SKILL_LEVEL,
+    )
+
+    # 6. Веса и сборка
+    requirements = [
+        ProjectRequirement(
+            skill=skill,
+            min_level=min_level,
+            weight=2.0 if skill in role_skills else 1.0,
+        )
+        for skill in sorted(all_skills)
+    ]
 
     return Project(
         id=raw.get("project_id", ""),
